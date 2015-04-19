@@ -1,0 +1,10 @@
+.main {
+  border-color: #F2DEDF;
+}
+.main > .panel-heading {
+  color: #59B98B;
+  background-color: #E0F0D6;
+}
+.main > .panel-body {
+  padding: 40px 35px;
+}

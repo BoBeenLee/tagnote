@@ -1,0 +1,47 @@
+
+.tag {
+  .label {
+    display: inline-block;
+    margin: 0px 2px 0px 0px;
+    font-size: 70%;
+//    padding: 4px 9px;
+  }
+
+  .main {
+    border-color: #F2DEDF;
+    > .panel-heading {
+      color: #DB5287;
+      background-color: #F2DEDF;
+    }
+
+    > .panel-body {
+      padding: 40px 35px;
+
+      .panel-group {
+        border: 1px solid #F2DEDF;
+        border-radius: 3px;
+        margin-bottom: 0px;
+
+        .panel {
+          border: 0px solid transparent;
+          margin: 0px;
+
+          + .panel {
+            border-top: 1px solid #F2DEDF;
+          }
+
+          .panel-heading {
+            padding: 15px 10px;
+            background-color: #FDFDFD;
+          }
+
+          .panel-body {
+            p {
+              padding: 10px 15px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

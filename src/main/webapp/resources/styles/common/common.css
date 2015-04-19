@@ -1,0 +1,9 @@
+.container {
+  padding: 20px;
+}
+.label {
+  padding: 4px 9px;
+}
+textarea {
+  resize: none;
+}
