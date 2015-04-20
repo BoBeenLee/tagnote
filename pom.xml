@@ -4,17 +4,17 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>kr</groupId>
-	<artifactId>tagmemo</artifactId>
+	<artifactId>tagnote</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>tagMemo</name>
-	<description>tagmemo project for Spring Boot</description>
+	<name>tagnote</name>
+	<description>tagnote project for Spring Boot</description>
 
 	<properties>
 		<tomcat7-maven.version>2.2</tomcat7-maven.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>tagmemo.TagMemoApplication</start-class>
+		<start-class>tagnote.TagNoteApplication</start-class>
 		<java.version>1.7</java.version>
 	</properties>
 
@@ -150,7 +150,7 @@
 				<configuration>
 					<url>${tomcat7-maven.url}</url>
 					<server>${tomcat7-maven.server}</server>
-					<path>/tagmemo</path>
+					<path>/tagnote</path>
 				</configuration>
 			</plugin>
 		</plugins>
