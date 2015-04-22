@@ -3,10 +3,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Login</title>
 
-    <link rel="stylesheet" type="text/css" href="resources/styles/common/normalize.css"/>
-    <link rel="stylesheet" type="text/css" href="resources/styles/common/bootstrap.min.css"/>
-    <link rel="stylesheet/less" type="text/css" href="resources/styles/common/common.less"/>
-    <link rel="stylesheet/less" type="text/css" href="resources/styles/login.less"/>
+    <link rel="stylesheet" type="text/css" href="/resources/styles/common/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/styles/common/bootstrap.min.css"/>
+    <link rel="stylesheet/less" type="text/css" href="/resources/styles/common/common.less"/>
+    <link rel="stylesheet/less" type="text/css" href="/resources/styles/login.less"/>
 </head>
 <body>
 <div class="login container">
@@ -14,12 +14,12 @@
     <div class="box box-2"></div>
     <div class="box box-3"></div>
     <h3 class="box title">Tag Note</h3>
-    <form>
+    <form action="/user/login" method="post">
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
                 </div>
-                <input type="email" class="form-control" placeholder="example@example.com">
+                <input type="email" name="email" class="form-control" placeholder="example@example.com">
             </div>
         </div>
         <div class="form-group">
@@ -27,18 +27,18 @@
                 <div class="input-group-addon">
 
                 </div>
-                <input type="password" class="form-control" placeholder="password">
+                <input type="password" name="password" class="form-control" placeholder="password">
             </div>
         </div>
         <input type="submit" class="btn btn-default" value="Confirm" />
     </form>
 </div>
 
-<script type="text/javascript" src="resources/scripts/common/less.min.js"></script>
-<script type="text/javascript" src="resources/scripts/common/jquery-2.1.3.min.js"></script>
-<script type="text/javascript" src="resources/scripts/common/angular.min.js"></script>
-<script type="text/javascript" src="resources/scripts/common/bootstrap.min.js"></script>
-<script type="text/javascript" src="resources/scripts/common/common.js"></script>
-<script type="text/javascript" src="resources/scripts/login.js"></script>
+<script type="text/javascript" src="/resources/scripts/common/less.min.js"></script>
+<script type="text/javascript" src="/resources/scripts/common/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="/resources/scripts/common/angular.min.js"></script>
+<script type="text/javascript" src="/resources/scripts/common/bootstrap.min.js"></script>
+<script type="text/javascript" src="/resources/scripts/common/common.js"></script>
+<script type="text/javascript" src="/resources/scripts/login.js"></script>
 </body>
 </html>

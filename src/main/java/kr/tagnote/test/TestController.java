@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/test")
 public class TestController {
 	@RequestMapping("/")
-	public String main(){
+	public String main() {
 		System.out.println("test: test");
 		return "test";
 	}

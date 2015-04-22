@@ -14,15 +14,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TagMemoUserDetailsService implements UserDetailsService {
-
     @Autowired
     UserRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = repository.findByEmail(email);
+        
+        System.out.println("user : " + user);
+        
         if(user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
         return new TagMemoUserDetails(user);
     }

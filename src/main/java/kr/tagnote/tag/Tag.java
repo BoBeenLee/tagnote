@@ -1,6 +1,5 @@
-package kr.tagnote.user;
+package kr.tagnote.tag;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -8,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
@@ -17,20 +14,16 @@ import lombok.Data;
 
 @Data
 @Entity
-public class User implements Serializable {
+public class Tag {
 	@Id
 	@GeneratedValue
-	@Column(name = "user_id")
-	private long userId;
-	private String email;
-	private String password;
+	@Column(name = "tag_id")
+	private int tagId;
+	private String name;
+	private String color;
 	private Timestamp created;
 	private Timestamp updated;
-
-	@OneToOne
-	@JoinColumn(name = "auth_id")
-	private Auth auth;
-
+	
 	@PrePersist
 	public void onCreate() {
 		created = updated = new Timestamp((new Date()).getTime());
