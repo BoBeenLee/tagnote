@@ -19,11 +19,12 @@ public class Tag {
 	@GeneratedValue
 	@Column(name = "tag_id")
 	private int tagId;
+	@Column(unique = true)
 	private String name;
 	private String color;
 	private Timestamp created;
 	private Timestamp updated;
-	
+
 	@PrePersist
 	public void onCreate() {
 		created = updated = new Timestamp((new Date()).getTime());

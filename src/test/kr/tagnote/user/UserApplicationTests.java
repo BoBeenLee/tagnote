@@ -1,6 +1,9 @@
 package kr.tagnote.user;
 
 import static org.junit.Assert.*;
+
+import javax.transaction.Transactional;
+
 import kr.tagnote.Application;
 
 import org.junit.Ignore;
@@ -28,13 +31,13 @@ public class UserApplicationTests {
 	}
 	
 	@Test
-	public void findAllAuth(){
+	public void findAllAuths(){
 		assertNotNull(authRepository.findAll());
 	}
 	
 	@Test
 	@Ignore
-	public void addUser(){
+	public void insertUser(){
 		User user = new User();
 		
 		user.setEmail("admin8@naver.com");
@@ -46,7 +49,9 @@ public class UserApplicationTests {
 	}
 	
 	@Test
+	@Ignore
 	public void deleteByEmail(){
-		userRepository.deleteByEmail("admin8@naver.com");
+//		userRepository.delete((long) 10);
+		long userId = userRepository.deleteByEmail("admin8@naver.com");
 	}
 }

@@ -17,7 +17,7 @@
                 <a class="btn btn-default" href="#">Home</a>
             </th>
             <th>
-                <a class="btn btn-default pull-right" href="#">Write</a>
+                <a class="btn btn-default pull-right" href="/article/write">Write</a>
             </th>
             <th>
                 <a class="btn btn-default pull-right" href="#">Settings</a>

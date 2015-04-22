@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -19,13 +20,13 @@ public class Article {
 	@GeneratedValue
 	@Column(name = "art_id")
 	private long artId;
-	@Column(name="user_id")
+	@Column(name = "user_id")
 	private long userId;
-	private String content;
 	private String subject;
+	private String content;
 	private Timestamp created;
 	private Timestamp updated;
-	
+
 	@PrePersist
 	public void onCreate() {
 		created = updated = new Timestamp((new Date()).getTime());
@@ -34,5 +35,12 @@ public class Article {
 	@PreUpdate
 	public void onUpdate() {
 		updated = new Timestamp((new Date()).getTime());
+	}
+	
+	@Data
+	public static class ArticleDTO {
+		private String subject;
+		private String content;
+		private String tags;
 	}
 }

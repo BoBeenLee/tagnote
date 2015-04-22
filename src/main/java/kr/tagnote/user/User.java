@@ -22,6 +22,7 @@ public class User implements Serializable {
 	@GeneratedValue
 	@Column(name = "user_id")
 	private long userId;
+    @Column(unique = true)
 	private String email;
 	private String password;
 	private Timestamp created;

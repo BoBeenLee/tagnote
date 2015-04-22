@@ -14,11 +14,11 @@
     <div class="main panel panel-default">
         <div class="panel-heading"><span>Article</span></div>
         <div class="panel-body">
-            <form>
+            <form action="/article/write/submit" method="get">
                 <!--<pre>Model: {{tags}}</pre>-->
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" class="form-control" name="subject"/>
+                    <input type="text" name="subject" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label>Tag</label>
@@ -29,11 +29,13 @@
                 </div>
                 <div class="form-group">
                     <label>Content</label>
-                    <textarea class="form-control" rows="5"></textarea>
+                    <textarea name="content" class="form-control" rows="5"></textarea>
                 </div>
                 <div class="form-group pull-right">
+	                <input type="hidden" name="artId" value="1" />
+	                <input type="hidden" name="userId" value="1" />
                     <input type="submit" class="btn btn-default" value="Write"/>
-                    <input type="button" class="btn btn-default" value="Cancel"/>
+                    <input type="button" class="btn btn-default" onclick="history.go(-1);" value="Cancel"/>
                 </div>
             </form>
         </div>
