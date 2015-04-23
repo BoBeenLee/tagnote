@@ -1,9 +1,12 @@
 package kr.tagnote.tag;
 
+import java.security.Principal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -13,10 +16,12 @@ public class TagController {
 	private static final Logger logger = LoggerFactory.getLogger(TagController.class);
 
 	@Autowired
-	private TagRepository tagRepository;
+	private TagService tagService;
 	
 	@RequestMapping(value = "/list")
-	public String main() {
+	public String main(Model model, Principal principal) {
+		
+		
 		return "main";
 	}
 

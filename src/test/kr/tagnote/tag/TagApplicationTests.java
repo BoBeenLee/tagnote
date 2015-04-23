@@ -2,6 +2,7 @@ package kr.tagnote.tag;
 
 import static org.junit.Assert.*;
 import kr.tagnote.Application;
+import kr.tagnote.util.CommonUtils;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,9 +30,15 @@ public class TagApplicationTests {
 		tagRepository.save(tag);
 	}
 
-	@Test
+//	@Test
 	public void deleteByName() {
 		tagRepository.deleteByName("test");
 	}
-
+	
+//	@Test
+	public void getRandomColor(){
+		for(int i=0; i<100; i++){
+			System.out.println(CommonUtils.getRandomColor());
+		}
+	}
 }

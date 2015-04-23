@@ -25,7 +25,7 @@
                     <tags-input ng-model="tags">
                         <auto-complete source="getTag($query)"></auto-complete>
                     </tags-input>
-                    <input type="hidden" name="tags" value="{{tags}}"/>
+                    <input type="hidden" name="tags" value="{{getTags(tags)}}"/>
                 </div>
                 <div class="form-group">
                     <label>Content</label>

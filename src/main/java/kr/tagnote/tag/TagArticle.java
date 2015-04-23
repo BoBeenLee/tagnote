@@ -18,4 +18,8 @@ public class TagArticle {
 	private int tagId;
 	@Column(name = "art_id")
 	private long artId;
+	
+	
+	
+	
 }

@@ -3,6 +3,7 @@ var article = angular.module('article', ['ui.bootstrap', 'ngTagsInput']);
 article.controller("articleController", function ($scope, $http) {
 
     $scope.getTag = function (val) {
+        //$scope.tags =
         return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
             params: {
                 address: val,
@@ -13,5 +14,13 @@ article.controller("articleController", function ($scope, $http) {
                 return item.formatted_address;
             });
         });
+    }
+
+    $scope.getTags = function (tags) {
+        var list = [];
+
+        for(var idx in tags)
+            list.push(tags[idx].text);
+        return list;
     }
 });

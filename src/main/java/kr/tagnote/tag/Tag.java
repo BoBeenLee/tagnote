@@ -34,4 +34,11 @@ public class Tag {
 	public void onUpdate() {
 		updated = new Timestamp((new Date()).getTime());
 	}
+	
+	@Data
+	public static class Reponse {
+		private int tagId;
+		private String name;
+		private String color;
+	}
 }
