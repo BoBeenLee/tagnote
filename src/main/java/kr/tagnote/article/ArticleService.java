@@ -3,7 +3,6 @@ package kr.tagnote.article;
 import java.security.Principal;
 import java.util.List;
 
-
 import kr.tagnote.tag.Tag;
 import kr.tagnote.tag.TagArticle;
 import kr.tagnote.tag.TagArticleRepository;
@@ -13,6 +12,7 @@ import kr.tagnote.user.UserRepository;
 import kr.tagnote.util.CommonUtils;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,9 +35,9 @@ public class ArticleService {
 	private TagArticleRepository tagArticleRepository;
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Transactional
-	public void insertArticle(Article.Request request, Principal principal){
+	public void insertArticle(Article.Request request, Principal principal) {
 		// add Article
 		Article article = modelMapper.map(request, Article.class);
 		User user = userRepository.findByEmail(principal.getName());
@@ -56,28 +56,25 @@ public class ArticleService {
 				tag.setColor(CommonUtils.getRandomColor());
 				tagRepository.save(tag);
 			}
-			
+
 			// add TagArticles
 			TagArticle tagArticle = new TagArticle();
-			tagArticle.setArtId(article.getArtId());
-			tagArticle.setTagId(tag.getTagId());
-			
+			tagArticle.setArticle(article);
+			tagArticle.setTag(tag);
 			tagArticleRepository.save(tagArticle);
 		}
 	}
-	
-	public Page<Article.Response> findByPage(Pageable pageRequest){
-		List<Article> articles = articleRepository.findAll(pageRequest)
-				.getContent();
+
+	@Transactional
+	public Page<Article.Response> findByPage(Pageable pageable) {
+		List<Article> articles = articleRepository.findAll(pageable).getContent();
 		List<Article.Response> articleDtos = null;
 		Page<Article.Response> pages = null;
 
-		articleDtos = modelMapper.map(articles,
-				new TypeToken<List<Article.Response>>() {
-				}.getType());
+		articleDtos = modelMapper.map(articles, new TypeToken<List<Article.Response>>() {
+		}.getType());
+
 		pages = new PageImpl<Article.Response>(articleDtos);
-		
 		return pages;
 	}
-	
 }

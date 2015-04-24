@@ -2,21 +2,25 @@ package kr.tagnote.article;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Transient;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
+import kr.tagnote.tag.TagArticle;
 import kr.tagnote.util.JacksonUtils;
 import lombok.Data;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @Data
 @Entity
@@ -32,9 +36,9 @@ public class Article {
 	private Timestamp created;
 	private Timestamp updated;
 
-	@Transient
-	private List<String> tags;
-	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL)
+	private List<TagArticle> tagArticles;
+
 	@PrePersist
 	public void onCreate() {
 		created = updated = new Timestamp((new Date()).getTime());
@@ -53,9 +57,8 @@ public class Article {
 
 		public void setTags(String tags) {
 			try {
-				this.tags = JacksonUtils.jsonToObject(tags,
-						new TypeReference<List<String>>() {
-						});
+				this.tags = JacksonUtils.jsonToObject(tags, new TypeReference<List<String>>() {
+				});
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -68,7 +71,7 @@ public class Article {
 		private long userId;
 		private String subject;
 		private String content;
-		private List<String> tags;
+		private List<TagArticle> tagArticles;
 		private Timestamp updated;
 	}
 }

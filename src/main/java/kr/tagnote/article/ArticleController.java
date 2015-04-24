@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.reflect.TypeToken;
@@ -37,8 +38,13 @@ public class ArticleController {
 	ArticleService articleService;
 	
 	@RequestMapping(value = "")
-	public String main() {
-		return "redirect:/tag/list";
+	public String main(@RequestParam("name") String name, Model model, Principal principal) {
+		Pageable pageable = new PageRequest(0, 100);
+		
+//		logger.info("pageable: " + pageable.toString());
+		Page<Article.Response> articles = articleService.findByPage(pageable);
+		model.addAttribute("articles", articles);
+		return "tag";
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)

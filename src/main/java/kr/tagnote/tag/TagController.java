@@ -17,17 +17,18 @@ public class TagController {
 
 	@Autowired
 	private TagService tagService;
+	@Autowired
+	private TagArticleService tagArticleService;
 	
 	@RequestMapping(value = "/list")
 	public String main(Model model, Principal principal) {
-		
-		
+		model.addAttribute("tags", tagArticleService.findAll());
 		return "main";
 	}
 
 	@RequestMapping(value = "")
 	public String tag() {
-//		logger.info("testtestetestetset");
+		// logger.info("testtestetestetset");
 		return "tag";
 	}
 }
