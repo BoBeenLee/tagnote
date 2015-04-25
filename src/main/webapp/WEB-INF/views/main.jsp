@@ -33,7 +33,7 @@
 			<c:forEach var="tagArticle" items="${ tags.content }">
 				<span class="label label-default"
 					style="background-color: #${ tagArticle.tag.color }"> <a
-					href="/"> ${tagArticle.tag.name}</a></span>
+					href="/tag?name=${tagArticle.tag.name}"> ${tagArticle.tag.name}</a></span>
 			</c:forEach>
 		</div>
 	</div>

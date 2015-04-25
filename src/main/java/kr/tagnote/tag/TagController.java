@@ -5,9 +5,13 @@ import java.security.Principal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -27,8 +31,12 @@ public class TagController {
 	}
 
 	@RequestMapping(value = "")
-	public String tag() {
-		// logger.info("testtestetestetset");
+	public String tag(@RequestParam("name") String tagName, Model model, Principal principal) {
+		Pageable pageable = new PageRequest(0, 100);
+		
+//		logger.info("tag : " + tagName + " " + principal.getName());
+		Page<TagArticle.Response> tagArticles = tagArticleService.findByTagNameAndEmailAndPage(tagName, principal.getName(), pageable);
+		model.addAttribute("tagArticles", tagArticles);
 		return "tag";
 	}
 }

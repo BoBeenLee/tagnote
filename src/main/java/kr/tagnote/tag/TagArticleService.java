@@ -2,19 +2,18 @@ package kr.tagnote.tag;
 
 import java.util.List;
 
-import kr.tagnote.article.Article;
+import kr.tagnote.user.User;
+import kr.tagnote.user.UserRepository;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.google.common.reflect.TypeToken;
 
 @Service
 public class TagArticleService {
@@ -22,6 +21,8 @@ public class TagArticleService {
 	private TagArticleRepository tagArticleRepository;
 	@Autowired
 	private TagRepository tagRepository;
+	@Autowired
+	private UserRepository userRepository;
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -41,17 +42,20 @@ public class TagArticleService {
 	}
 
 	@Transactional
-	public Page<TagArticle.Response> findByTagNameAndPage(String name, Pageable pageable){
-		Tag tag = tagRepository.findByName(name);
-		List<TagArticle> tagArticles = tagArticleRepository.findByTag(tag, pageable).getContent();
+	public Page<TagArticle.Response> findByTagNameAndEmailAndPage(String tagName, String email, Pageable pageable){
+		Tag tag = tagRepository.findByName(tagName);
+		User user = userRepository.findByEmail(email);
+		
+		List<TagArticle> tagArticles = tagArticleRepository.findByTagIdAndUserId(tag.getTagId(), user.getUserId(), pageable).getContent();
 		List<TagArticle.Response> tagArticleDtos = null;
 		Page<TagArticle.Response> pages = null;
 		
+		for(int i=0; i<tagArticles.size(); i++)
+			tagArticles.get(i).getArticle().getTagArticles();
 		tagArticleDtos = modelMapper.map(tagArticles,  new TypeToken<List<TagArticle.Response>>() {
 		}.getType());
 		
 		pages = new PageImpl<TagArticle.Response>(tagArticleDtos);
 		return pages;
 	}
-	
 }
