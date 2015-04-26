@@ -46,6 +46,8 @@ public class TagArticleService {
 		Tag tag = tagRepository.findByName(tagName);
 		User user = userRepository.findByEmail(email);
 		
+		if(tag == null && user == null)
+			return null;
 		List<TagArticle> tagArticles = tagArticleRepository.findByTagIdAndUserId(tag.getTagId(), user.getUserId(), pageable).getContent();
 		List<TagArticle.Response> tagArticleDtos = null;
 		Page<TagArticle.Response> pages = null;

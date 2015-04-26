@@ -1,6 +1,7 @@
 package kr.tagnote.article;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -74,5 +73,15 @@ public class Article {
 		private String content;
 		private List<TagArticle.Response> tags;
 		private Timestamp updated;
+		private String jsonTags;
+		
+		public void setTags(List<TagArticle.Response> tags) {
+			List<String> list = new ArrayList<String>();
+			
+			this.tags = tags;
+			for(TagArticle.Response tagArticle : tags)
+				list.add(tagArticle.getTag().getName());
+			jsonTags = JacksonUtils.objectToJson(list);
+		}
 	}
 }

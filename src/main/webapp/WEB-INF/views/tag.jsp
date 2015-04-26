@@ -25,14 +25,14 @@
                     </accordion-heading>
                     <div class="tag-label row">
                         <div class="col-md-9">
-                        	<c:forEach var="tag" items="${ tagArticle.article.tagArticles }">
+                        	<c:forEach var="tag" items="${ tagArticle.article.tags }">
                            	 	<span class="label label-default" style="background-color: #${ tag.tag.color }">${ tag.tag.name }</span>
                             </c:forEach>
                         </div>
                         <div class="col-md-3 text-right">
-                            <a href="#remove"><span class="label label-danger">Remove</span></a>
+                            <a href="/article/remove?name=${ tagArticle.tag.name }&id=${ tagArticle.article.artId }"><span class="label label-danger">Remove</span></a>
                             <a href="#send"><span class="label label-primary">Send</span></a>
-                            <a href="#modify"><span class="label label-success">Modify</span></a>
+                            <a href="/article/write?name=${ tagArticle.tag.name }&id=${ tagArticle.article.artId }"><span class="label label-success">Modify</span></a>
                         </div>
                     </div>
                     <p class="row col-md-12">

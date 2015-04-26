@@ -1,9 +1,12 @@
 package kr.tagnote.article;
 
 import static org.junit.Assert.*;
+
 import java.util.List;
 
 import kr.tagnote.Application;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -21,53 +24,42 @@ public class ArticleApplicationTests {
 	ArticleService articleService;
 
 	@Test
+//	@Ignore
 	public void findAll() {
 		Pageable pageable = new PageRequest(0, 10);
 
 		Page<Article.Response> pages = articleService.findByPage(pageable);
-		List<Article.Response>articles = pages.getContent();
-		
-		for(int i=0; i<articles.size(); i++){
+		List<Article.Response> articles = pages.getContent();
+
+		for (int i = 0; i < articles.size(); i++) {
 			System.out.println(articles.get(i).getTags().get(0).getTag().getName());
 		}
 	}
-	
+
 	@Test
+//	@Ignore
 	public void findOne() {
-		Article.Response article = articleService.findById(25);
+		Article.Response article = articleService.findById(26);
 		System.out.println(article.getTags().get(0).getTag().getName());
 	}
-	
+
 	@Test
+//	@Ignore
 	public void findAll1() {
 		Pageable pageable = new PageRequest(0, 10);
 
 		Page<Article.Response> pages = articleService.findByPage(pageable);
-		List<Article.Response>articles = pages.getContent();
-		
-		for(int i=0; i<articles.size(); i++){
+		List<Article.Response> articles = pages.getContent();
+
+		for (int i = 0; i < articles.size(); i++) {
 			System.out.println(articles.get(i).getTags().get(0).getTag().getName());
 		}
 	}
-	
+
 	@Test
+//	@Ignore
 	public void findOne1() {
-		Article.Response article = articleService.findById(25);
+		Article.Response article = articleService.findById(26);
 		System.out.println(article.getTags().get(0).getTag().getName());
 	}
-	/*
-	 * static class SList { List<Integer> name; }
-	 * 
-	 * static class DList { List<String> name; }
-	 * 
-	 * // @Test public void shouldMapListToListOfDifferentTypes() { SList list =
-	 * new SList(); list.name = Arrays.asList(Integer.valueOf(1),
-	 * Integer.valueOf(2), Integer.valueOf(3)); Type targetListType = new
-	 * TypeToken<DList>() { }.getType();
-	 * 
-	 * DList d = modelMapper.map(list, targetListType);
-	 * 
-	 * System.out.println(d.name); // assertEquals(d.name, Arrays.asList("1",
-	 * "2", "3")); }
-	 */
 }

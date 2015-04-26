@@ -32,20 +32,21 @@ public class ArticleService {
 	private TagArticleRepository tagArticleRepository;
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Transactional
 	public void insertArticle(Article.Request request, Principal principal) {
 		// add Article
 		Article article = modelMapper.map(request, Article.class);
 		User user = userRepository.findByEmail(principal.getName());
 		article.setUserId(user.getUserId());
-
 		articleRepository.save(article);
 
 		// add Tags
+		// add TagArticles
 		List<String> tags = request.getTags();
 		for (int i = 0; tags != null && i < request.getTags().size(); i++) {
 			Tag tag = tagRepository.findByName(tags.get(i));
+			TagArticle tagArticle = tagArticleRepository.findByArticleAndTag(article, tag);
 
 			if (tag == null) {
 				tag = new Tag();
@@ -54,11 +55,12 @@ public class ArticleService {
 				tagRepository.save(tag);
 			}
 
-			// add TagArticles
-			TagArticle tagArticle = new TagArticle();
-			tagArticle.setArticle(article);
-			tagArticle.setTag(tag);
-			tagArticleRepository.save(tagArticle);
+			if (tagArticle == null) {
+				tagArticle = new TagArticle();
+				tagArticle.setArticle(article);
+				tagArticle.setTag(tag);
+				tagArticleRepository.save(tagArticle);
+			}
 		}
 	}
 
@@ -84,13 +86,9 @@ public class ArticleService {
 	public Article.Response findById(long id) {
 		Article article = articleRepository.findOne(id);
 		Article.Response response = null;
-		List<TagArticle.Response> tagArticles = null;
 
 		if (article != null) {
 			response = modelMapper.map(article, Article.Response.class);
-		/*	tagArticles = modelMapper.map(article.getTagArticles(), new TypeToken<List<TagArticle.Response>>() {
-			}.getType());
-			response.setTags(tagArticles);*/
 		}
 		return response;
 	}

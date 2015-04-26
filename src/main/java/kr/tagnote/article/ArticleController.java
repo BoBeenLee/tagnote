@@ -45,15 +45,25 @@ public class ArticleController {
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String writeView() {
+	public String writeView(@RequestParam(value = "id", required = false, defaultValue = "0") long id, @RequestParam(value = "name", required = false) String name, Model model) {
+		Article.Response article = new Article.Response();
+		if(id != 0)
+			article = articleService.findById(id);
+
+//		logger.info("writeView : " + article.getTags() + " , " + article.getContent());
+		// TODO 유저가 같은 유저인지 체크 해야하나?
+		model.addAttribute("name", name);
+		model.addAttribute("article", article);
 		return "article";
 	}
 
 	// 같은 /write url로 할 경우, 에러발생함.
 	@RequestMapping(value = "/write/submit", method = RequestMethod.GET)
-	public String write(@ModelAttribute("article") Article.Request request, Model model, Principal principal) {
+	public String write(@ModelAttribute("article") Article.Request request, @RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
+		String response = (name != null)? "redirect:/tag?name=" + name : "redirect:/tag/list";
+		
 		articleService.insertArticle(request, principal);
-		return "redirect:/tag/list";
+		return response;
 	}
 
 	@RequestMapping(value = "/paging")
@@ -64,22 +74,6 @@ public class ArticleController {
 
 		mv.addObject("articles", articles);
 		return mv;
-	}
-
-	@RequestMapping(value = "/modify")
-	public String modifyView(@RequestParam("id") long id, Model model) {
-		Article.Response article = articleService.findById(id);
-
-		// TODO 유저가 같은 유저인지 체크 해야하나?
-		model.addAttribute("article", article);
-		return "article";
-	}
-
-	@RequestMapping(value = "/modify/submit")
-	public String modify(@ModelAttribute("article") Article.Request request, Principal principal) {
-		articleService.insertArticle(request, principal);
-		
-		return "redirect:/tag/list";
 	}
 
 	@RequestMapping(value = "/remove")

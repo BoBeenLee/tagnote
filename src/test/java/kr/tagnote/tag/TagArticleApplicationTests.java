@@ -1,6 +1,7 @@
 package kr.tagnote.tag;
 
 import kr.tagnote.Application;
+import kr.tagnote.article.Article;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,8 +30,20 @@ public class TagArticleApplicationTests {
 	
 	@Test
 	@Transactional
-	public void findByTagAndArticle(){
+	public void findByTagIdAndArticleId(){
 		Pageable pageable = new PageRequest(0, 100);
 		System.out.println(tagArticleRepository.findByTagIdAndUserId(9, 2, pageable).getContent().size());
+	}
+	
+	@Test
+	@Transactional
+	public void findByTagAndArticle(){
+		Tag tag = new Tag();
+		Article article = new Article();
+		
+		tag.setTagId(12);
+		article.setArtId(26);
+
+		System.out.println(tagArticleRepository.findByArticleAndTag(article, tag).getTag().getName());
 	}
 }

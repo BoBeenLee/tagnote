@@ -34,12 +34,6 @@ public class Application extends SpringBootServletInitializer {
 	public ModelMapper modelMapper() {
 		final ModelMapper modelMapper = new ModelMapper();
 
-		PropertyMap<Article, Article.Response> propertyArticleMap = new PropertyMap<Article, Article.Response>() {
-			@Override
-			protected void configure() {
-				skip().setTags(null);
-			}
-		};
 		PropertyMap<Tag, Tag.Reponse> propertyTagMap = new PropertyMap<Tag, Tag.Reponse>() {
 			@Override
 			protected void configure() {
@@ -51,7 +45,6 @@ public class Application extends SpringBootServletInitializer {
 			}
 		};
 		
-		modelMapper.addMappings(propertyArticleMap);
 		modelMapper.addMappings(propertyTagMap);
 		modelMapper.addMappings(propertyTagArticleMap);
 
@@ -65,6 +58,12 @@ public class Application extends SpringBootServletInitializer {
 				
 				Article.Response response = new Article.Response();
 				response.setTags(responses);
+				response.setArtId(article.getArtId());
+				response.setUserId(article.getUserId());
+				response.setSubject(article.getSubject());
+				response.setContent(article.getContent());
+				response.setUpdated(article.getUpdated());
+				
 				return response;
 			}
 		};

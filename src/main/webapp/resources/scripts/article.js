@@ -1,8 +1,11 @@
 var article = angular.module('article', [ 'ui.bootstrap', 'ngTagsInput' ]);
 
 article.controller("articleController", function($scope, $http) {
-
+	$scope.tags = [];
+	
 	$scope.init = function(tags) {
+		for(var idx in tags)
+			$scope.tags.push({text: tags[idx]});
 		console.log(tags);
 	}
 
