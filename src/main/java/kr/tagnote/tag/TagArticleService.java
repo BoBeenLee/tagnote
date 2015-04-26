@@ -25,7 +25,7 @@ public class TagArticleService {
 	private UserRepository userRepository;
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	public Page<TagArticle.Response> findAll() {
 		Pageable pageable = new PageRequest(0, 10000);
 		

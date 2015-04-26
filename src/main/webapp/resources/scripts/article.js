@@ -1,26 +1,30 @@
-var article = angular.module('article', ['ui.bootstrap', 'ngTagsInput']);
+var article = angular.module('article', [ 'ui.bootstrap', 'ngTagsInput' ]);
 
-article.controller("articleController", function ($scope, $http) {
+article.controller("articleController", function($scope, $http) {
 
-    $scope.getTag = function (val) {
-        //$scope.tags =
-        return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
-            params: {
-                address: val,
-                sensor: false
-            }
-        }).then(function (response) {
-            return response.data.results.map(function (item) {
-                return item.formatted_address;
-            });
-        });
-    }
+	$scope.init = function(tags) {
+		console.log(tags);
+	}
 
-    $scope.getTags = function (tags) {
-        var list = [];
+	$scope.getTag = function(val) {
+		// $scope.tags =
+		return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+			params : {
+				address : val,
+				sensor : false
+			}
+		}).then(function(response) {
+			return response.data.results.map(function(item) {
+				return item.formatted_address;
+			});
+		});
+	}
 
-        for(var idx in tags)
-            list.push(tags[idx].text);
-        return list;
-    }
+	$scope.getTags = function(tags) {
+		var list = [];
+
+		for ( var idx in tags)
+			list.push(tags[idx].text);
+		return list;
+	}
 });

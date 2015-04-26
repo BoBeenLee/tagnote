@@ -51,6 +51,7 @@ public class Article {
 
 	@Data
 	public static class Request {
+		private long artId;
 		private String subject;
 		private String content;
 		private List<String> tags;
@@ -71,7 +72,7 @@ public class Article {
 		private long userId;
 		private String subject;
 		private String content;
-		private List<TagArticle> tagArticles;
+		private List<TagArticle.Response> tags;
 		private Timestamp updated;
 	}
 }

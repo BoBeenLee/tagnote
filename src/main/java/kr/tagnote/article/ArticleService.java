@@ -32,7 +32,7 @@ public class ArticleService {
 	private TagArticleRepository tagArticleRepository;
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
 	@Transactional
 	public void insertArticle(Article.Request request, Principal principal) {
 		// add Article
@@ -73,5 +73,25 @@ public class ArticleService {
 
 		pages = new PageImpl<Article.Response>(articleDtos);
 		return pages;
+	}
+
+	public boolean deleteById(long id) {
+		articleRepository.delete(id);
+		return true;
+	}
+
+	@Transactional
+	public Article.Response findById(long id) {
+		Article article = articleRepository.findOne(id);
+		Article.Response response = null;
+		List<TagArticle.Response> tagArticles = null;
+
+		if (article != null) {
+			response = modelMapper.map(article, Article.Response.class);
+		/*	tagArticles = modelMapper.map(article.getTagArticles(), new TypeToken<List<TagArticle.Response>>() {
+			}.getType());
+			response.setTags(tagArticles);*/
+		}
+		return response;
 	}
 }

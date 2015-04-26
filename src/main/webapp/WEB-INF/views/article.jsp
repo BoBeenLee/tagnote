@@ -13,7 +13,7 @@
     <link rel="stylesheet/less" type="text/css" href="/resources/styles/common/common.less"/>
     <link rel="stylesheet/less" type="text/css" href="/resources/styles/article.less"/>
 </head>
-<body ng-controller="articleController">
+<body ng-controller="articleController" ng-init="init(${ article.tags })">
 <div class="article container">
     <div class="main panel panel-default">
         <div class="panel-heading"><span>Article</span></div>
@@ -22,7 +22,7 @@
                 <!--<pre>Model: {{tags}}</pre>-->
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" name="subject" class="form-control" />
+                    <input type="text" name="subject" class="form-control" value="${ article.subject }" />
                 </div>
                 <div class="form-group">
                     <label>Tag</label>
@@ -33,11 +33,10 @@
                 </div>
                 <div class="form-group">
                     <label>Content</label>
-                    <textarea name="content" class="form-control" rows="5"></textarea>
+                    <textarea name="content" class="form-control" rows="5">${ article.content }</textarea>
                 </div>
                 <div class="form-group pull-right">
-	                <input type="hidden" name="artId" value="1" />
-	                <input type="hidden" name="userId" value="1" />
+	                <input type="hidden" name="artId" value="${ article.artId }" />
                     <input type="submit" class="btn btn-default" value="Write"/>
                     <input type="button" class="btn btn-default" onclick="history.go(-1);" value="Cancel"/>
                 </div>

@@ -29,7 +29,7 @@ public class User implements Serializable {
 	private Timestamp created;
 	private Timestamp updated;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "auth_id")
 	private Auth auth;
 

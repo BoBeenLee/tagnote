@@ -30,16 +30,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
-	private static final Logger logger = LoggerFactory
-			.getLogger(ArticleController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 	@Autowired
 	ArticleService articleService;
-	
+
 	@RequestMapping(value = "")
 	public String main(@RequestParam("name") String name, Model model, Principal principal) {
 		Pageable pageable = new PageRequest(0, 100);
-		
-//		logger.info("pageable: " + pageable.toString());
+
+		// logger.info("pageable: " + pageable.toString());
 		Page<Article.Response> articles = articleService.findByPage(pageable);
 		model.addAttribute("articles", articles);
 		return "tag";
@@ -50,9 +49,9 @@ public class ArticleController {
 		return "article";
 	}
 
+	// 같은 /write url로 할 경우, 에러발생함.
 	@RequestMapping(value = "/write/submit", method = RequestMethod.GET)
-	public String write(@ModelAttribute("article") Article.Request request,
-			Model model, Principal principal) {
+	public String write(@ModelAttribute("article") Article.Request request, Model model, Principal principal) {
 		articleService.insertArticle(request, principal);
 		return "redirect:/tag/list";
 	}
@@ -62,8 +61,30 @@ public class ArticleController {
 		ModelAndView mv = new ModelAndView("article");
 		Pageable pageable = new PageRequest(1, 10);
 		Page<Article.Response> articles = articleService.findByPage(pageable);
-		
+
 		mv.addObject("articles", articles);
 		return mv;
+	}
+
+	@RequestMapping(value = "/modify")
+	public String modifyView(@RequestParam("id") long id, Model model) {
+		Article.Response article = articleService.findById(id);
+
+		// TODO 유저가 같은 유저인지 체크 해야하나?
+		model.addAttribute("article", article);
+		return "article";
+	}
+
+	@RequestMapping(value = "/modify/submit")
+	public String modify(@ModelAttribute("article") Article.Request request, Principal principal) {
+		articleService.insertArticle(request, principal);
+		
+		return "redirect:/tag/list";
+	}
+
+	@RequestMapping(value = "/remove")
+	public String remove(@RequestParam("name") String tagName, @RequestParam("id") long id) {
+		articleService.deleteById(id);
+		return "redirect:/tag?name=" + tagName;
 	}
 }

@@ -1,7 +1,5 @@
-package kr.tagnote;
+package kr.tagnote.util;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import kr.tagnote.article.Article;
@@ -13,25 +11,9 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
 import org.modelmapper.spi.MappingContext;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
-import scala.annotation.meta.setter;
-
-@SpringBootApplication
-public class Application extends SpringBootServletInitializer {
-
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-
-	@Bean
-	public ModelMapper modelMapper() {
+public class ModelMapperUtils {
+	public static ModelMapper newInstance() {
 		final ModelMapper modelMapper = new ModelMapper();
 
 		PropertyMap<Article, Article.Response> propertyArticleMap = new PropertyMap<Article, Article.Response>() {
@@ -71,20 +53,4 @@ public class Application extends SpringBootServletInitializer {
 		modelMapper.addConverter(converter);
 		return modelMapper;
 	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new StandardPasswordEncoder();
-	}
-
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Application.class);
-	}
-	/*
-	 * @Bean InternalResourceViewResolver internalResourceViewResolver () {
-	 * InternalResourceViewResolver viewResolver = new
-	 * InternalResourceViewResolver(); viewResolver.setPrefix("/WEB-INF/view/");
-	 * viewResolver.setSuffix(".jsp"); return viewResolver; }
-	 */
 }

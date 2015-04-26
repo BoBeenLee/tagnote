@@ -34,7 +34,7 @@ public class TagArticle {
 	@Data
 	public static class Response {
 		private long tagArtId;
-		private Tag tag;
-		private Article article;
+		private Tag.Reponse tag;
+		private Article.Response article;
 	}
 }
