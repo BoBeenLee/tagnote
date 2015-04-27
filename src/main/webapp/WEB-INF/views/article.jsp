@@ -16,7 +16,10 @@
 <body ng-controller="articleController" ng-init='init(${ article.jsonTags })'>
 <div class="article container">
     <div class="main panel panel-default">
-        <div class="panel-heading"><span>Article</span></div>
+        <div class="panel-heading">
+        	<span>Article</span>
+        	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
+        </div>
         <div class="panel-body">
             <form action="/article/write/submit" method="get">
                 <!--<pre>Model: {{tags}}</pre>-->

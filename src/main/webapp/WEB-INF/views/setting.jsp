@@ -15,7 +15,10 @@
 <body>
 <div class="container">
     <div class="main panel panel-default">
-        <div class="panel-heading"><span>Settings</span></div>
+        <div class="panel-heading">
+        	<span>Settings</span>
+        	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
+        </div>
         <div class="panel-body">
         </div>
     </div>

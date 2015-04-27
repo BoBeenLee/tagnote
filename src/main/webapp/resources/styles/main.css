@@ -22,3 +22,7 @@
   margin: 5px 0px;
   font-size: 95%;
 }
+.main .content span a {
+  color: #FFFFF3;
+  text-decoration: none;
+}

@@ -24,4 +24,9 @@ public class UserController {
 	public String logout() {
 		return "redirect:/user/login";
 	}
+	
+	@RequestMapping(value = "/setting")
+	public String settings(){
+		return "setting";
+	}
 }

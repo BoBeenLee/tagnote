@@ -36,6 +36,9 @@ public class TagController {
 		
 //		logger.info("tag : " + tagName + " " + principal.getName());
 		Page<TagArticle.Response> tagArticles = tagArticleService.findByTagNameAndEmailAndPage(tagName, principal.getName(), pageable);
+		Tag tag = tagService.findByTagName(tagName);
+		
+		model.addAttribute("tag", tag);
 		model.addAttribute("tagArticles", tagArticles);
 		return "tag";
 	}

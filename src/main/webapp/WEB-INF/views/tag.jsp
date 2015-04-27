@@ -15,7 +15,10 @@
 <body>
 <div class="tag container">
     <div class="main panel panel-default">
-        <div class="panel-heading">#<span>Tag</span></div>
+        <div class="panel-heading" style="background-color: #${ tag.color }; color: white;">
+        	#<span>Tag</span>
+        	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
+       	</div>
         <div class="panel-body">
             <accordion close-others="true">
                 <c:forEach var="tagArticle" items="${ tagArticles.content }">
@@ -36,7 +39,7 @@
                         </div>
                     </div>
                     <p class="row col-md-12">
-                        ${ tagArticle.article.content }
+                      ${ tagArticle.article.tags } -  ${ tagArticle.article.content }
                     </p>
                 </accordion-group>
                 </c:forEach>

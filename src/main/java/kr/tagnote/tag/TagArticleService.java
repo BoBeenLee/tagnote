@@ -52,10 +52,14 @@ public class TagArticleService {
 		List<TagArticle.Response> tagArticleDtos = null;
 		Page<TagArticle.Response> pages = null;
 		
-		for(int i=0; i<tagArticles.size(); i++)
-			tagArticles.get(i).getArticle().getTagArticles();
 		tagArticleDtos = modelMapper.map(tagArticles,  new TypeToken<List<TagArticle.Response>>() {
 		}.getType());
+
+		for(int i=0; i<tagArticles.size(); i++){
+			List<TagArticle.Response> tags = modelMapper.map(tagArticles.get(i).getArticle().getTagArticles(),  new TypeToken<List<TagArticle.Response>>() {
+			}.getType());
+			tagArticleDtos.get(i).getArticle().setTags(tags);
+		}
 		
 		pages = new PageImpl<TagArticle.Response>(tagArticleDtos);
 		return pages;

@@ -43,6 +43,12 @@ public class Tag {
 	}
 	
 	@Data
+	public static class Request {
+		private String name;
+		private String color;
+	}
+	
+	@Data
 	public static class Reponse {
 		private int tagId;
 		private String name;

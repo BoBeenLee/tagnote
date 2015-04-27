@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 public class TagService {
 	@Autowired
 	private TagRepository tagRepository;
-	
-	
-	
+
+	public Tag findByTagName(String tagName) {
+		return tagRepository.findByName(tagName);
+	}
 }
