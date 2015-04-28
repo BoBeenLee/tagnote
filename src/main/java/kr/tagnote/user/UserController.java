@@ -1,20 +1,26 @@
 package kr.tagnote.user;
 
-import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
-import kr.tagnote.test.TestController;
+import kr.tagnote.util.CommonUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping(value = "/login", method=RequestMethod.GET)
 	public String login() {
 		return "login";
@@ -26,7 +32,24 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/setting")
-	public String settings(){
+	public String settings(Model model){
+		
 		return "setting";
+	}
+	
+	@RequestMapping(value = "/id/get")
+	@ResponseBody
+	public String getId(Principal principal){
+		boolean isExists = true;
+		String uid = "";
+		User.Response user = userService.findByEmail(principal.getName());
+		do {
+			uid = CommonUtils.getRandomId();
+			isExists = userService.isExistsByUid(uid);
+		} while(isExists);
+		
+		user.setUid(uid);
+		userService.saveUser(user);
+		return uid;
 	}
 }

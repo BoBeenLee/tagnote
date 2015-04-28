@@ -34,7 +34,7 @@ public class ArticleService {
 	private ModelMapper modelMapper;
 
 	@Transactional
-	public void insertArticle(Article.Request request, Principal principal) {
+	public void saveArticle(Article.Request request, Principal principal) {
 		// add Article
 		Article article = modelMapper.map(request, Article.class);
 		User user = userRepository.findByEmail(principal.getName());

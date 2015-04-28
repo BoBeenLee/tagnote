@@ -52,7 +52,9 @@ public class ArticleController {
 
 //		logger.info("writeView : " + article.getTags() + " , " + article.getContent());
 		// TODO 유저가 같은 유저인지 체크 해야하나?
-		model.addAttribute("name", name);
+		
+//		logger.info("writeView : " + name);
+		model.addAttribute("name", CommonUtils.urlEncode(name));
 		model.addAttribute("article", article);
 		return "article";
 	}
@@ -62,7 +64,7 @@ public class ArticleController {
 	public String write(@ModelAttribute("article") Article.Request request, @RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
 		String response = (name != null)? "redirect:/tag?name=" + name : "redirect:/tag/list";
 		
-		articleService.insertArticle(request, principal);
+		articleService.saveArticle(request, principal);
 		return response;
 	}
 
@@ -79,6 +81,6 @@ public class ArticleController {
 	@RequestMapping(value = "/remove")
 	public String remove(@RequestParam("name") String tagName, @RequestParam("id") long id) {
 		articleService.deleteById(id);
-		return "redirect:/tag?name=" + tagName;
+		return "redirect:/tag?name=" + CommonUtils.urlEncode(tagName);
 	}
 }

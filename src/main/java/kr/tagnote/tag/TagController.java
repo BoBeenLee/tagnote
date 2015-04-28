@@ -1,7 +1,9 @@
 package kr.tagnote.tag;
 
 import java.security.Principal;
+import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -34,12 +37,19 @@ public class TagController {
 	public String tag(@RequestParam("name") String tagName, Model model, Principal principal) {
 		Pageable pageable = new PageRequest(0, 100);
 		
-//		logger.info("tag : " + tagName + " " + principal.getName());
+		logger.info("tag : " + tagName + " " + principal.getName());
 		Page<TagArticle.Response> tagArticles = tagArticleService.findByTagNameAndEmailAndPage(tagName, principal.getName(), pageable);
-		Tag tag = tagService.findByTagName(tagName);
+		Tag.Reponse tag = tagService.findByTagName(tagName);
 		
 		model.addAttribute("tag", tag);
 		model.addAttribute("tagArticles", tagArticles);
 		return "tag";
+	}
+	
+	@RequestMapping(value = "/ajax")
+	@ResponseBody
+	public List<Tag.Reponse> ajaxTag(@RequestParam("name") String name){
+		List<Tag.Reponse> tags = tagService.findByTagNameLike(name);
+		return tags;
 	}
 }

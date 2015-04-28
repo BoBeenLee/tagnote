@@ -23,9 +23,10 @@ public class User implements Serializable {
 	@GeneratedValue
 	@Column(name = "user_id")
 	private long userId;
-    @Column(unique = true)
+	@Column(unique = true)
 	private String email;
 	private String password;
+	private String uid;
 	private Timestamp created;
 	private Timestamp updated;
 
@@ -41,5 +42,19 @@ public class User implements Serializable {
 	@PreUpdate
 	public void onUpdate() {
 		updated = new Timestamp((new Date()).getTime());
+	}
+
+	@Data
+	public static class Request {
+		private String email;
+		private String uid;
+		private String password;
+	}
+
+	@Data
+	public static class Response {
+		private String email;
+		private String uid;
+		private Auth auth;
 	}
 }

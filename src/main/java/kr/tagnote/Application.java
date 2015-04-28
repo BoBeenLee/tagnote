@@ -1,13 +1,12 @@
 package kr.tagnote;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import kr.tagnote.article.Article;
 import kr.tagnote.tag.Tag;
 import kr.tagnote.tag.TagArticle;
 
+import org.apache.catalina.connector.Connector;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -16,12 +15,13 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
-
-import scala.annotation.meta.setter;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
@@ -80,6 +80,7 @@ public class Application extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(Application.class);
 	}
+	
 	/*
 	 * @Bean InternalResourceViewResolver internalResourceViewResolver () {
 	 * InternalResourceViewResolver viewResolver = new

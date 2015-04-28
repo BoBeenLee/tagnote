@@ -11,14 +11,13 @@ article.controller("articleController", function($scope, $http) {
 
 	$scope.getTag = function(val) {
 		// $scope.tags =
-		return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+		return $http.get('/tag/ajax', {
 			params : {
-				address : val,
-				sensor : false
+				name : val
 			}
 		}).then(function(response) {
 			return response.data.results.map(function(item) {
-				return item.formatted_address;
+				return item.name;
 			});
 		});
 	}

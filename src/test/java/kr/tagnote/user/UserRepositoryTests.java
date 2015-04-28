@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-public class UserApplicationTests {
+public class UserRepositoryTests {
 	@Autowired
 	UserService userService;
 	@Autowired

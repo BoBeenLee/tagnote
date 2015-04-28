@@ -43,7 +43,7 @@
 	               		<input type="hidden" name="artId" value="${ article.artId }" />
 	                </c:if>
 	                <c:if test="${ name != null }">
-	                	<input type="hidden" name="name" value="${ name }" />
+	                	<input type="hidden" name="name" value='<c:out value="${ name }"></c:out>' />
 	                </c:if>
                     <input type="submit" class="btn btn-default" value="Write"/>
                     <input type="button" class="btn btn-default" onclick="history.go(-1);" value="Cancel"/>

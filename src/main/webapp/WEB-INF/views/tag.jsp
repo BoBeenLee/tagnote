@@ -13,6 +13,7 @@
     <link rel="stylesheet/less" type="text/css" href="/resources/styles/tag.less"/>
 </head>
 <body>
+
 <div class="tag container">
     <div class="main panel panel-default">
         <div class="panel-heading" style="background-color: #${ tag.color }; color: white;">
@@ -33,13 +34,24 @@
                             </c:forEach>
                         </div>
                         <div class="col-md-3 text-right">
-                            <a href="/article/remove?name=${ tagArticle.tag.name }&id=${ tagArticle.article.artId }"><span class="label label-danger">Remove</span></a>
+	                        <c:url var="removeUrl" value="/article/remove">
+								<c:param name="name">${ tagArticle.tag.name }</c:param>
+								<c:param name="id">${ tagArticle.article.artId }</c:param>
+							</c:url>
+							<c:url var="modifyUrl" value="/article/write">
+								<c:param name="name">${ tagArticle.tag.name }</c:param>
+								<c:param name="id">${ tagArticle.article.artId }</c:param>
+							</c:url>
+                            <a href='${ removeUrl }'><span class="label label-danger">Remove</span></a>
                             <a href="#send"><span class="label label-primary">Send</span></a>
-                            <a href="/article/write?name=${ tagArticle.tag.name }&id=${ tagArticle.article.artId }"><span class="label label-success">Modify</span></a>
+                            <a href='${ modifyUrl }'><span class="label label-success">Modify</span></a>
                         </div>
                     </div>
                     <p class="row col-md-12">
-                      ${ tagArticle.article.tags } -  ${ tagArticle.article.content }
+                     	${ tagArticle.article.content }
+                     	<!-- 
+                     	 ${ tagArticle.article.tags }
+                     	 -->
                     </p>
                 </accordion-group>
                 </c:forEach>
