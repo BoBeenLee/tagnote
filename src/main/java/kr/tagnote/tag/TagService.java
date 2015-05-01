@@ -2,8 +2,8 @@ package kr.tagnote.tag;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import kr.tagnote.article.Article;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,21 +12,30 @@ public class TagService {
 	@Autowired
 	private TagRepository tagRepository;
 	@Autowired
-	private ModelMapper modelMapper;
+	private TagArticleRepository tagArticleRepository;
 	
-	public Tag.Reponse findByTagName(String tagName) {
+	public Tag findByTagName(String tagName) {
 		Tag tag = tagRepository.findByName(tagName);
-		Tag.Reponse response = null;
-		
-		response = modelMapper.map(tag, Tag.Reponse.class); 
-		return response;
+		return tag;
 	}
 
-	public List<Tag.Reponse> findByTagNameLike(String name) {
+	public List<Tag> findByTagNameLike(String name) {
 		List<Tag> tags = tagRepository.findByNameLike(name); 
-		List<Tag.Reponse> responses = null;
-		
-		responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>(){}.getType());
-		return responses;
+		return tags;
+	}
+	
+	public TagArticle findByArticleAndTag(Article article, Tag tag){
+		TagArticle tagArticle = tagArticleRepository.findByArticleAndTag(article, tag);
+		return tagArticle;
+	}
+	
+	public Tag saveTag(Tag tag){
+		tag = tagRepository.save(tag);
+		return tag;
+	}
+	
+	public TagArticle saveTagArticle(TagArticle tagArticle){
+		tagArticle = tagArticleRepository.save(tagArticle);
+		return tagArticle;
 	}
 }

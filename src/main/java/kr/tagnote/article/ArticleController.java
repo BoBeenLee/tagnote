@@ -12,6 +12,7 @@ import kr.tagnote.user.UserRepository;
 import kr.tagnote.util.CommonUtils;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,28 +35,38 @@ public class ArticleController {
 	@Autowired
 	ArticleService articleService;
 
+	@Autowired
+	ModelMapper modelMapper;
+	
 	@RequestMapping(value = "")
 	public String main(@RequestParam("name") String name, Model model, Principal principal) {
 		Pageable pageable = new PageRequest(0, 100);
-
-		// logger.info("pageable: " + pageable.toString());
-		Page<Article.Response> articles = articleService.findByPage(pageable);
-		model.addAttribute("articles", articles);
+		List<Article.Response> articleDtos = null;
+		Page<Article.Response> responses = null;
+		Page<Article> articles = articleService.findByPage(pageable);
+		
+		articleDtos = modelMapper.map(articles, new TypeToken<List<Article.Response>>() {
+		}.getType());
+		responses = new PageImpl<Article.Response>(articleDtos);
+	
+		model.addAttribute("articles", responses);
 		return "tag";
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
 	public String writeView(@RequestParam(value = "id", required = false, defaultValue = "0") long id, @RequestParam(value = "name", required = false) String name, Model model) {
-		Article.Response article = new Article.Response();
-		if(id != 0)
-			article = articleService.findById(id);
-
+		Article.Response response = new Article.Response();
+		if(id != 0){
+			Article article = articleService.findById(id); 
+			response = modelMapper.map(article, Article.Response.class);
+			
+			model.addAttribute("name", CommonUtils.urlEncode(name));
+		}
 //		logger.info("writeView : " + article.getTags() + " , " + article.getContent());
 		// TODO 유저가 같은 유저인지 체크 해야하나?
-		
 //		logger.info("writeView : " + name);
-		model.addAttribute("name", CommonUtils.urlEncode(name));
-		model.addAttribute("article", article);
+		model.addAttribute("article", response);
+		
 		return "article";
 	}
 
@@ -64,7 +75,9 @@ public class ArticleController {
 	public String write(@ModelAttribute("article") Article.Request request, @RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
 		String response = (name != null)? "redirect:/tag?name=" + name : "redirect:/tag/list";
 		
-		articleService.saveArticle(request, principal);
+		Article article = modelMapper.map(request, Article.class);
+		
+		articleService.saveArticle(article, principal);
 		return response;
 	}
 
@@ -72,9 +85,15 @@ public class ArticleController {
 	public ModelAndView pagingMain() {
 		ModelAndView mv = new ModelAndView("article");
 		Pageable pageable = new PageRequest(1, 10);
-		Page<Article.Response> articles = articleService.findByPage(pageable);
+		List<Article.Response> articleDtos = null;
+		Page<Article.Response> responses = null;
+		Page<Article> articles = articleService.findByPage(pageable);
+		
+		articleDtos = modelMapper.map(articles, new TypeToken<List<Article.Response>>() {
+		}.getType());
+		responses = new PageImpl<Article.Response>(articleDtos);
 
-		mv.addObject("articles", articles);
+		mv.addObject("articles", responses);
 		return mv;
 	}
 

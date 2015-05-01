@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 
 import kr.tagnote.tag.TagArticle;
 import kr.tagnote.util.JacksonUtils;
@@ -38,6 +39,9 @@ public class Article {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL)
 	private List<TagArticle> tagArticles;
 
+	@Transient
+	private List<String> tags;
+	
 	@PrePersist
 	public void onCreate() {
 		created = updated = new Timestamp((new Date()).getTime());

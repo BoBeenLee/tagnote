@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import kr.tagnote.util.CommonUtils;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	ModelMapper modelMapper;
 	
 	@RequestMapping(value = "/login", method=RequestMethod.GET)
 	public String login() {
@@ -33,7 +36,6 @@ public class UserController {
 	
 	@RequestMapping(value = "/setting")
 	public String settings(Model model){
-		
 		return "setting";
 	}
 	
@@ -42,7 +44,8 @@ public class UserController {
 	public String getId(Principal principal){
 		boolean isExists = true;
 		String uid = "";
-		User.Response user = userService.findByEmail(principal.getName());
+		User user = userService.findByEmail(principal.getName());
+		
 		do {
 			uid = CommonUtils.getRandomId();
 			isExists = userService.isExistsByUid(uid);

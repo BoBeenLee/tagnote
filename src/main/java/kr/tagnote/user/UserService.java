@@ -8,29 +8,31 @@ import org.springframework.stereotype.Service;
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	public boolean isExistsByUid(String uid) {
-		return userRepository.isExistsByUid(uid);
+		Boolean isExists = userRepository.isExistsByUid(uid);
+		return (isExists == null)? false : isExists;
 	}
 	
-	public User.Response  findByEmail(String email) {
+	public User  findByEmail(String email) {
 		User user = userRepository.findByEmail(email);
-		User.Response response = modelMapper.map(user, User.Response.class);
-		return response;
+		return user;
 	}
 	
-	public boolean saveUser(User.Request request){
-		User user = modelMapper.map(request, User.class);
-		boolean isSave = (userRepository.save(user) != null)? true : false;
-		return isSave;
+	public User saveUser(User user){
+		user = userRepository.save(user);
+		return user;
 	}
 	
-	public boolean saveUser(User.Response response){
+/*	public User saveUser(User.Response response){
 		User user = userRepository.findByEmail(response.getEmail());
 		user.setUid(response.getUid());
-		boolean isSave = (userRepository.save(user) != null)? true : false;
-		return isSave;
+		user = userRepository.save(user);
+		return modelMapper.map(user, User.Response.class);
+	}*/
+	
+	public boolean deleteByEmail(String email){
+		boolean isDelete = (userRepository.deleteByEmail(email) > 0)? true : false;
+		return isDelete;
 	}
 }

@@ -1,71 +1,73 @@
 package kr.tagnote.user;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+
+import java.security.Principal;
 
 import javax.transaction.Transactional;
 
 import kr.tagnote.Application;
 import kr.tagnote.util.CommonUtils;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.core.env.Environment;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 public class UserControllerTests {
 	@Autowired
-	UserService userService;
-	@Autowired
-	UserRepository userRepository;
-	@Autowired
-	AuthRepository authRepository;
-	
-	@Autowired
-	PasswordEncoder passwordEncoder;
-	
-	@Test
-	public void getUser(){
-//		System.out.println(userRepository.findByEmail("admin1@naver.com"));
-		assertNotEquals(null, userRepository.findByEmail("admin1@naver.com"));
-	}
-	
-	@Test
-	public void findAllAuths(){
-		assertNotNull(authRepository.findAll());
-	}
-	
-	@Test
-	public void getRandomId(){
-		assertNotNull(CommonUtils.getRandomId());
-	}
-	
+	UserController userController;
+
 	@Test
 	public void getId(){
-		System.out.println(userService.findByEmail("admin8@naver.com"));
-	}
+		Principal principal = new Principal() {
+			@Override
+			public String getName() {
+				return "admin1@naver.com";
+			}
+		};
+		String uid = userController.getId(principal);
+		assertNotNull(uid);
+	}	
 	
-	@Test
-	@Ignore
-	public void insertUser(){
-		User user = new User();
-		
-		user.setEmail("admin9@naver.com");
-		user.setPassword(passwordEncoder.encode("1234"));
-		user.setAuth(new Auth(){{ setAuthId(1);}}); 
-		// authRepository.findOne(1)
-		user = userRepository.save(user);
-		assertNotEquals(0, user.getUserId());
-	}
+	/*	@Autowired
+	protected WebApplicationContext wac;
 	
-	@Test
-	@Ignore
-	public void deleteByEmail(){
-//		userRepository.delete((long) 10);
-		long userId = userRepository.deleteByEmail("admin9@naver.com");
-	}
+	private MockMvc mockMvc;
+
+	@Autowired
+	Environment environment;
+
+	@Before
+	public void setup() throws Exception {
+		this.mockMvc = webAppContextSetup(this.wac).alwaysExpect(
+				status().isOk()).build();
+	}*/
+/*
+	public  <T> void printJson(APICode<T> reqCode){
+		try {
+			this.mockMvc
+			.perform(
+					post("/skhu").contentType(
+							MediaType.APPLICATION_JSON).content(
+									JacksonUtils.<APICode<T>>objectToJson(reqCode).getBytes()))
+			.andDo(print());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}*/
 }

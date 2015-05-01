@@ -1,9 +1,6 @@
-package kr.tagnote.user;
+package kr.tagnote.tag;
 
 import static org.junit.Assert.*;
-
-import javax.transaction.Transactional;
-
 import kr.tagnote.Application;
 import kr.tagnote.util.CommonUtils;
 
@@ -17,24 +14,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-public class UserRepositoryTests {
+public class TagControllerTests {
 	@Autowired
-	UserRepository userRepository;
+	TagRepository tagRepository;
 	@Autowired
-	AuthRepository authRepository;
-	
-	@Test
-	public void findByEmail(){
-		assertNotNull(userRepository.findByEmail("admin1@naver.com"));
+	TagArticleRepository tagArticleRepository;
+
+//	@Test
+	public void insertTag() {
+		Tag tag = new Tag();
+
+		tag.setName("test");
+		tag.setColor("155555");
+
+		tagRepository.save(tag);
+	}
+
+//	@Test
+	public void deleteByName() {
+		tagRepository.deleteByName("test");
 	}
 	
-	@Test
-	public void deleteByEmail(){
-		assertTrue(0 == userRepository.deleteByEmail("admin8@naver.com"));
-	}
-	
-	@Test
-	public void isExistsByUid(){
-		assertNotNull(userRepository.isExistsByUid("1"));
+//	@Test
+	public void getRandomColor(){
+		for(int i=0; i<100; i++){
+			System.out.println(CommonUtils.getRandomColor());
+		}
 	}
 }

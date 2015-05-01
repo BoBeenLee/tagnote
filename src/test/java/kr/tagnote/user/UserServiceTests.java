@@ -10,6 +10,7 @@ import kr.tagnote.util.CommonUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -21,51 +22,39 @@ public class UserServiceTests {
 	@Autowired
 	UserService userService;
 	@Autowired
-	UserRepository userRepository;
+	PasswordEncoder passwordEncoder;
 	@Autowired
-	AuthRepository authRepository;
+	ModelMapper modelMapper;
 	
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	UserRepository userRepository;
+	
 	
 	@Test
-	public void getUser(){
-//		System.out.println(userRepository.findByEmail("admin1@naver.com"));
-		assertNotEquals(null, userRepository.findByEmail("admin1@naver.com"));
+	public void deleteByEmail(){
+		assertTrue(userService.deleteByEmail("admin11@naver.com"));
 	}
 	
 	@Test
-	public void findAllAuths(){
-		assertNotNull(authRepository.findAll());
+	public void saveUser(){
+		User user = new User();
+		
+		user.setEmail("admin11@naver.com");
+		user.setPassword(passwordEncoder.encode("1234"));
+		user.setAuth(new Auth(){{ setAuthId(1);}}); 
+		// authRepository.findOne(1)
+		user = userService.saveUser(user);
+		System.out.println(user);
+//		assertNotEquals(0, user.getUserId());
+	}
+	
+	@Test
+	public void isExistsByUid(){
+		assertNull(userService.isExistsByUid(null));
 	}
 	
 	@Test
 	public void getRandomId(){
 		assertNotNull(CommonUtils.getRandomId());
-	}
-	
-	@Test
-	public void getId(){
-		System.out.println(userService.findByEmail("admin8@naver.com"));
-	}
-	
-	@Test
-	@Ignore
-	public void insertUser(){
-		User user = new User();
-		
-		user.setEmail("admin9@naver.com");
-		user.setPassword(passwordEncoder.encode("1234"));
-		user.setAuth(new Auth(){{ setAuthId(1);}}); 
-		// authRepository.findOne(1)
-		user = userRepository.save(user);
-		assertNotEquals(0, user.getUserId());
-	}
-	
-	@Test
-	@Ignore
-	public void deleteByEmail(){
-//		userRepository.delete((long) 10);
-		long userId = userRepository.deleteByEmail("admin9@naver.com");
 	}
 }

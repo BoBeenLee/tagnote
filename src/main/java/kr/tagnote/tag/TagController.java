@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class TagController {
 	@Autowired
 	private TagArticleService tagArticleService;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	@RequestMapping(value = "/list")
 	public String main(Model model, Principal principal) {
 		model.addAttribute("tags", tagArticleService.findAll());
@@ -39,7 +43,7 @@ public class TagController {
 		
 		logger.info("tag : " + tagName + " " + principal.getName());
 		Page<TagArticle.Response> tagArticles = tagArticleService.findByTagNameAndEmailAndPage(tagName, principal.getName(), pageable);
-		Tag.Reponse tag = tagService.findByTagName(tagName);
+		Tag tag = tagService.findByTagName(tagName);
 		
 		model.addAttribute("tag", tag);
 		model.addAttribute("tagArticles", tagArticles);
@@ -49,7 +53,9 @@ public class TagController {
 	@RequestMapping(value = "/ajax")
 	@ResponseBody
 	public List<Tag.Reponse> ajaxTag(@RequestParam("name") String name){
-		List<Tag.Reponse> tags = tagService.findByTagNameLike(name);
-		return tags;
+		List<Tag> tags = tagService.findByTagNameLike(name);
+		List<Tag.Reponse> responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>(){}.getType());
+		
+		return responses;
 	}
 }

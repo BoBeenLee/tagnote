@@ -7,6 +7,7 @@ import kr.tagnote.tag.Tag;
 import kr.tagnote.tag.TagArticle;
 import kr.tagnote.tag.TagArticleRepository;
 import kr.tagnote.tag.TagRepository;
+import kr.tagnote.tag.TagService;
 import kr.tagnote.user.User;
 import kr.tagnote.user.UserRepository;
 import kr.tagnote.util.CommonUtils;
@@ -27,54 +28,43 @@ public class ArticleService {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private TagRepository tagRepository;
-	@Autowired
-	private TagArticleRepository tagArticleRepository;
-	@Autowired
-	private ModelMapper modelMapper;
-
+	private TagService tagService;
+	
 	@Transactional
-	public void saveArticle(Article.Request request, Principal principal) {
+	public void saveArticle(Article article, Principal principal) {
 		// add Article
-		Article article = modelMapper.map(request, Article.class);
 		User user = userRepository.findByEmail(principal.getName());
 		article.setUserId(user.getUserId());
-		articleRepository.save(article);
+		article = articleRepository.save(article);
 
 		// add Tags
 		// add TagArticles
-		List<String> tags = request.getTags();
-		for (int i = 0; tags != null && i < request.getTags().size(); i++) {
-			Tag tag = tagRepository.findByName(tags.get(i));
-			TagArticle tagArticle = tagArticleRepository.findByArticleAndTag(article, tag);
+		List<String> tags = article.getTags();
+		for (int i = 0; tags != null && i < tags.size(); i++) {
+			String tagName = tags.get(i);
+			Tag tag = tagService.findByTagName(tagName);
+			TagArticle tagArticle = tagService.findByArticleAndTag(article, tag);
 
 			if (tag == null) {
 				tag = new Tag();
-				tag.setName(tags.get(i));
+				tag.setName(tagName);
 				tag.setColor(CommonUtils.getRandomColor());
-				tagRepository.save(tag);
+				tagService.saveTag(tag);
 			}
 
 			if (tagArticle == null) {
 				tagArticle = new TagArticle();
 				tagArticle.setArticle(article);
 				tagArticle.setTag(tag);
-				tagArticleRepository.save(tagArticle);
+				tagService.saveTagArticle(tagArticle);
 			}
 		}
 	}
 
 	@Transactional
-	public Page<Article.Response> findByPage(Pageable pageable) {
-		List<Article> articles = articleRepository.findAll(pageable).getContent();
-		List<Article.Response> articleDtos = null;
-		Page<Article.Response> pages = null;
-
-		articleDtos = modelMapper.map(articles, new TypeToken<List<Article.Response>>() {
-		}.getType());
-
-		pages = new PageImpl<Article.Response>(articleDtos);
-		return pages;
+	public Page<Article> findByPage(Pageable pageable) {
+		Page<Article> articles = articleRepository.findAll(pageable);
+		return articles;
 	}
 
 	public boolean deleteById(long id) {
@@ -83,13 +73,8 @@ public class ArticleService {
 	}
 
 	@Transactional
-	public Article.Response findById(long id) {
+	public Article findById(long id) {
 		Article article = articleRepository.findOne(id);
-		Article.Response response = null;
-
-		if (article != null) {
-			response = modelMapper.map(article, Article.Response.class);
-		}
-		return response;
+		return article;
 	}
 }

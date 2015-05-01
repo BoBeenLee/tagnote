@@ -30,8 +30,10 @@ public class TagArticle {
 	@JoinColumn(name = "art_id")
 	private Article article;
 
+	@Data
 	public static class Request {
-
+		private Tag.Request tag;
+		private Article.Request article;
 	}
 
 	@Data
