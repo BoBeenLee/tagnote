@@ -63,7 +63,7 @@ public class Application extends SpringBootServletInitializer {
 				response.setSubject(article.getSubject());
 				response.setContent(article.getContent());
 				response.setUpdated(article.getUpdated());
-				
+
 				return response;
 			}
 		};

@@ -40,7 +40,7 @@ public class Article {
 	private List<TagArticle> tagArticles;
 
 	@Transient
-	private List<String> tags;
+	private List<String> tagList;
 	
 	@PrePersist
 	public void onCreate() {

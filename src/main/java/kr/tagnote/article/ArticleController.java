@@ -76,6 +76,7 @@ public class ArticleController {
 		String response = (name != null)? "redirect:/tag?name=" + name : "redirect:/tag/list";
 		
 		Article article = modelMapper.map(request, Article.class);
+		article.setTagList(request.getTags());
 		
 		articleService.saveArticle(article, principal);
 		return response;

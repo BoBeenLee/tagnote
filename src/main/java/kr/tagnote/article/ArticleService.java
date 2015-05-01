@@ -35,11 +35,11 @@ public class ArticleService {
 		// add Article
 		User user = userRepository.findByEmail(principal.getName());
 		article.setUserId(user.getUserId());
-		article = articleRepository.save(article);
+		articleRepository.save(article);
 
 		// add Tags
 		// add TagArticles
-		List<String> tags = article.getTags();
+		List<String> tags = article.getTagList();
 		for (int i = 0; tags != null && i < tags.size(); i++) {
 			String tagName = tags.get(i);
 			Tag tag = tagService.findByTagName(tagName);
