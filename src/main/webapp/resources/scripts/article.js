@@ -16,7 +16,7 @@ article.controller("articleController", function($scope, $http) {
 				name : val
 			}
 		}).then(function(response) {
-			return response.data.results.map(function(item) {
+			return response.data.map(function(item) {
 				return item.name;
 			});
 		});

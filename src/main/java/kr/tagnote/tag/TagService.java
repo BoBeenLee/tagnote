@@ -5,6 +5,7 @@ import java.util.List;
 import kr.tagnote.article.Article;
 import kr.tagnote.user.User;
 import kr.tagnote.user.UserRepository;
+import kr.tagnote.user.UserService;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,18 +23,17 @@ public class TagService {
 	private TagRepository tagRepository;
 	@Autowired
 	private TagArticleRepository tagArticleRepository;
+
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private ModelMapper modelMapper;
+	private UserService userService;
 	
 	public Tag findByTagName(String tagName) {
 		Tag tag = tagRepository.findByName(tagName);
 		return tag;
 	}
 
-	public List<Tag> findByTagNameLike(String name) {
-		List<Tag> tags = tagRepository.findByNameLike(name); 
+	public List<Tag> findByNameContaining(String name) {
+		List<Tag> tags = tagRepository.findByNameContaining(name); 
 		return tags;
 	}
 	
@@ -56,12 +56,17 @@ public class TagService {
 		Pageable pageable = new PageRequest(0, 10000);
 		return tagArticleRepository.findAll(pageable);
 	}
-
-	// TODO service response 객체
+	
+	public List<Tag> findByEmail(String email){
+		User user = userService.findByEmail(email);
+		List<Tag> tags = tagRepository.findByUserId(user.getUserId());
+		return tags;
+	}
+	
 	@Transactional
 	public Page<TagArticle> findByTagNameAndEmailAndPage(String tagName, String email, Pageable pageable){
 		Tag tag = tagRepository.findByName(tagName);
-		User user = userRepository.findByEmail(email);
+		User user = userService.findByEmail(email);
 		
 		if(tag == null || user == null)
 			return null;

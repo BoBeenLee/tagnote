@@ -30,10 +30,10 @@
 			</table>
 		</div>
 		<div class="content row col-md-12">
-			<c:forEach var="tagArticle" items="${ tags.content }">
+			<c:forEach var="tag" items="${ tags }">
 				<span class="label label-default"
-					style="background-color: #${ tagArticle.tag.color }"> <a
-					href="/tag?name=${tagArticle.tag.name}"> ${tagArticle.tag.name}</a></span>
+					style="background-color: #${ tag.color }"> <a
+					href="/tag?name=${ tag.name }"> ${ tag.name }</a></span>
 			</c:forEach>
 		</div>
 	</div>

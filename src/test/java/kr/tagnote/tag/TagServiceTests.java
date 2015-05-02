@@ -36,17 +36,19 @@ public class TagServiceTests {
 
 	}
 
-	public void findByTagNameLike() {
-
+	@Test
+	public void findByNameContaining() {
+		List<Tag> tags = tagService.findByNameContaining("sdf");
+		
+		System.out.println(tags);
 	}
 
 	@Test
 	public void getRandomColor() {
-		System.out.println(CommonUtils.getRandomColor());
+		assertNotNull(CommonUtils.getRandomColor());
 	}
 
 	@Test
-	// @Ignore
 	public void findByTagNameAndEmailAndPageResponse() {
 		Pageable pageable = new PageRequest(0, 100);
 		List<TagArticle> tagArticles = tagService.findByTagNameAndEmailAndPage("sdfsdf", "admin1@naver.com",
@@ -63,9 +65,8 @@ public class TagServiceTests {
 			tagArticleDtos.get(i).getArticle().setTags(tags);
 		}
 		
-		for(int i=0; i<tagArticleDtos.size(); i++){
-			System.out.println(tagArticleDtos.get(i).getArticle().getTags().size());
-		}
+		for(int i=0; i<tagArticleDtos.size(); i++)
+			assertTrue(tagArticleDtos.get(i).getArticle().getTags().size() >= 0);
 		// System.out.println(tagArticles.size());
 	}
 

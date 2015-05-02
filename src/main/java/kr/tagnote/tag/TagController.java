@@ -33,13 +33,11 @@ public class TagController {
 
 	@RequestMapping(value = "/list")
 	public String main(Model model, Principal principal) {
-		List<TagArticle> tagArticles = tagService.findAll().getContent();
-		List<TagArticle.Response> tagArticleDtos = null;
-		Page<TagArticle.Response> responses = null;
-
-		tagArticleDtos = modelMapper.map(tagArticles, new TypeToken<List<TagArticle.Response>>() {
+		List<Tag> tags = tagService.findByEmail(principal.getName());
+		List<Tag.Reponse> responses = null;
+		
+		responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>() {
 		}.getType());
-		responses = new PageImpl<TagArticle.Response>(tagArticleDtos);
 
 		model.addAttribute("tags", responses);
 		return "main";
@@ -73,10 +71,12 @@ public class TagController {
 	@RequestMapping(value = "/ajax")
 	@ResponseBody
 	public List<Tag.Reponse> ajaxTag(@RequestParam("name") String name) {
-		List<Tag> tags = tagService.findByTagNameLike(name);
+		List<Tag> tags = tagService.findByNameContaining(name);
 		List<Tag.Reponse> responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>() {
 		}.getType());
 
+		
+		
 		return responses;
 	}
 }

@@ -10,6 +10,7 @@ import kr.tagnote.tag.TagRepository;
 import kr.tagnote.tag.TagService;
 import kr.tagnote.user.User;
 import kr.tagnote.user.UserRepository;
+import kr.tagnote.user.UserService;
 import kr.tagnote.util.CommonUtils;
 
 import org.modelmapper.ModelMapper;
@@ -25,15 +26,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class ArticleService {
 	@Autowired
 	private ArticleRepository articleRepository;
+	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	@Autowired
 	private TagService tagService;
 	
 	@Transactional
 	public void saveArticle(Article article, Principal principal) {
 		// add Article
-		User user = userRepository.findByEmail(principal.getName());
+		User user = userService.findByEmail(principal.getName());
 		article.setUserId(user.getUserId());
 		articleRepository.save(article);
 

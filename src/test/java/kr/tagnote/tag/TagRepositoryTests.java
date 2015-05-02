@@ -1,13 +1,16 @@
 package kr.tagnote.tag;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+
 import kr.tagnote.Application;
 import kr.tagnote.article.Article;
-import kr.tagnote.util.CommonUtils;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -39,8 +41,12 @@ public class TagRepositoryTests {
 	}
 
 	@Test
-	public void findByNameLike(){
-		assertNotNull(tagRepository.findByNameLike("test1"));
+	public void findByNameContaining(){
+	/*	System.out.println("findByNameContaining : ");
+		List<Tag> tags = tagRepository.findByNameContaining("tes");
+		for(Tag tag : tags)
+			System.out.println(tag.getName());*/
+		assertEquals(2, tagRepository.findByNameContaining("tes").size());
 	}
 	
 	@Test
@@ -68,6 +74,11 @@ public class TagRepositoryTests {
 		Tag tag = tagRepository.findByName("test1");
 		
 		assertNull(tagArticleRepository.findByArticleAndTag(article, tag));
+	}
+	
+	@Test
+	public void findByUserId(){
+		System.out.println(tagRepository.findByUserId(2).size());
 	}
 	
 	 @After
