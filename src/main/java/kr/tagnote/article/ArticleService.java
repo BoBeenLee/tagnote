@@ -33,10 +33,11 @@ public class ArticleService {
 	private TagService tagService;
 	
 	@Transactional
-	public void saveArticle(Article article, Principal principal) {
+	public void saveArticle(Article article, String email) {
 		// add Article
-		User user = userService.findByEmail(principal.getName());
+		User user = userService.findByEmail(email);
 		article.setUserId(user.getUserId());
+		article.setParentId(0);
 		articleRepository.save(article);
 
 		// add Tags
@@ -61,6 +62,8 @@ public class ArticleService {
 				tagService.saveTagArticle(tagArticle);
 			}
 		}
+		article.setParentId(article.getArtId());
+		articleRepository.save(article);
 	}
 
 	@Transactional

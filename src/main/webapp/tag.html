@@ -9,7 +9,7 @@
     <link rel="stylesheet/less" type="text/css" href="resources/styles/tag.less"/>
 </head>
 <body>
-<div class="tag container">
+<div ng-controller="tagController" class="tag container">
     <div class="main panel panel-default">
         <div class="panel-heading">#<span>Tag</span></div>
         <div class="panel-body">
@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-md-3 text-right">
                             <a href="#remove"><span class="label label-danger">Remove</span></a>
-                            <a href="#send"><span class="label label-primary">Send</span></a>
+                            <a href="#send" class="pop-up" popover="{{ msg }}"><span class="label label-primary" ng-click="open(24, $event); $event.stopPropagation();">Send</span></a>
                             <a href="#modify"><span class="label label-success">Modify</span></a>
                         </div>
                     </div>
@@ -57,5 +57,29 @@
 <script type="text/javascript" src="resources/scripts/common/bootstrap.min.js"></script>
 <script type="text/javascript" src="resources/scripts/common/common.js"></script>
 <script type="text/javascript" src="resources/scripts/tag.js"></script>
+
+<!-- modal -->
+<script type="text/ng-template" id="sendModal.html">
+    <div class="send-modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Send</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                        </div>
+                        <input ng-model="uid" type="text" class="form-control" placeholder="Note ID">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
 </body>
 </html>

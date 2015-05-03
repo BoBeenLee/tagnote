@@ -13,8 +13,8 @@
     <link rel="stylesheet/less" type="text/css" href="/resources/styles/common/common.less"/>
     <link rel="stylesheet/less" type="text/css" href="/resources/styles/article.less"/>
 </head>
-<body ng-controller="articleController" ng-init='init(${ article.jsonTags })'>
-<div class="article container">
+<body>
+<div ng-controller="articleController" class="article container" ng-init='init(${ article.jsonTags })'>
     <div class="main panel panel-default">
         <div class="panel-heading">
         	<span>Article</span>

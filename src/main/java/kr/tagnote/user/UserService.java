@@ -35,4 +35,14 @@ public class UserService {
 		boolean isDelete = (userRepository.deleteByEmail(email) > 0)? true : false;
 		return isDelete;
 	}
+
+	public User findByUid(String uid) {
+		User user = userRepository.findByUid(uid);
+		return user;
+	}
+
+	public User findByEmailAndUid(String email, String uid) {
+		User user = userRepository.findByEmailAndUid(email, uid);
+		return user;
+	}
 }

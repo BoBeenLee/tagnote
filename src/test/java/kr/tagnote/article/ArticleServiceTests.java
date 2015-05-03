@@ -25,7 +25,7 @@ public class ArticleServiceTests {
 	ArticleService articleService;
 	
 	Article article = null;
-	Principal principal = null;
+	String email = "admin1@naver.com";
 	
 	@Before
 	public void insert(){
@@ -34,14 +34,7 @@ public class ArticleServiceTests {
 		article.setContent("testtesttesttest");
 		article.setTagList(new ArrayList<String>(){{ add("tesT"); }});
 		
-		principal = new Principal() {
-			@Override
-			public String getName() {
-				return "admin1@naver.com";
-			}
-		};
-		
-		articleService.saveArticle(article, principal);
+		articleService.saveArticle(article, email);
 	}
 	
 	

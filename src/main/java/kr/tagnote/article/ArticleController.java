@@ -9,6 +9,7 @@ import kr.tagnote.tag.TagArticleRepository;
 import kr.tagnote.tag.TagRepository;
 import kr.tagnote.user.User;
 import kr.tagnote.user.UserRepository;
+import kr.tagnote.user.UserService;
 import kr.tagnote.util.CommonUtils;
 
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -34,7 +36,9 @@ public class ArticleController {
 	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 	@Autowired
 	ArticleService articleService;
-
+	@Autowired
+	UserService userService;
+	
 	@Autowired
 	ModelMapper modelMapper;
 	
@@ -54,17 +58,18 @@ public class ArticleController {
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String writeView(@RequestParam(value = "id", required = false, defaultValue = "0") long id, @RequestParam(value = "name", required = false) String name, Model model) {
+	public String writeView(@RequestParam(value = "id", required = false, defaultValue = "0") long id, @RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
+		User user = userService.findByEmail(principal.getName());
 		Article.Response response = new Article.Response();
-		if(id != 0){
-			Article article = articleService.findById(id); 
+		Article article = null;
+		
+		if(id != 0)
+			article = articleService.findById(id); 
+		if(article != null && article.getUserId() == user.getUserId()){
 			response = modelMapper.map(article, Article.Response.class);
-			
 			model.addAttribute("name", CommonUtils.urlEncode(name));
 		}
-//		logger.info("writeView : " + article.getTags() + " , " + article.getContent());
-		// TODO 유저가 같은 유저인지 체크 해야하나?
-//		logger.info("writeView : " + name);
+		//		logger.info("writeView : " + name);
 		model.addAttribute("article", response);
 		
 		return "article";
@@ -78,10 +83,27 @@ public class ArticleController {
 		Article article = modelMapper.map(request, Article.class);
 		article.setTagList(request.getTags());
 		
-		articleService.saveArticle(article, principal);
+		articleService.saveArticle(article, principal.getName());
 		return response;
 	}
 
+	@RequestMapping(value = "/send")
+	@ResponseBody
+	public String send(@RequestParam("artId") long artId, @RequestParam("uid") String uid){
+		String msg = "success";
+		
+		User user = userService.findByUid(uid);
+		Article article = articleService.findById(artId);
+		
+		article.setParentId(article.getArtId());
+		article.setArtId(0);
+		article.setTagList(Article.convertTagArticlesToTagList(article.getTagArticles()));
+		article.setUserId(user.getUserId());
+		
+		articleService.saveArticle(article, user.getEmail());
+		return msg;
+	}
+	
 	@RequestMapping(value = "/paging")
 	public ModelAndView pagingMain() {
 		ModelAndView mv = new ModelAndView("article");

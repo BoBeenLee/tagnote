@@ -14,7 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import kr.tagnote.tag.TagArticle;
 import kr.tagnote.util.JacksonUtils;
@@ -24,6 +26,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 @Data
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "parent_id"}))
 public class Article {
 	@Id
 	@GeneratedValue
@@ -54,6 +57,14 @@ public class Article {
 		updated = new Timestamp((new Date()).getTime());
 	}
 
+	public static List<String> convertTagArticlesToTagList(List<TagArticle> tags) {
+		List<String> list = new ArrayList<String>();
+		
+		for(TagArticle tagArticle : tags)
+			list.add(tagArticle.getTag().getName());
+		return list;
+	}
+	
 	@Data
 	public static class Request {
 		private long artId;

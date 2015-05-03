@@ -74,8 +74,6 @@ public class TagController {
 		List<Tag> tags = tagService.findByNameContaining(name);
 		List<Tag.Reponse> responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>() {
 		}.getType());
-
-		
 		
 		return responses;
 	}

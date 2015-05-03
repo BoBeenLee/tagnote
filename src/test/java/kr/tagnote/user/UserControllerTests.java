@@ -34,13 +34,7 @@ public class UserControllerTests {
 
 	@Test
 	public void getId(){
-		Principal principal = new Principal() {
-			@Override
-			public String getName() {
-				return "admin1@naver.com";
-			}
-		};
-		String uid = userController.getId(principal);
+		String uid = userController.getId();
 		assertNotNull(uid);
 	}	
 	

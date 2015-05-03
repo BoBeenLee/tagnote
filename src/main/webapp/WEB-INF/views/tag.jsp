@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<div class="tag container">
+<div ng-controller="tagController" class="tag container">
     <div class="main panel panel-default">
         <div class="panel-heading" style="background-color: #${ tag.color }; color: white;">
         	#<span>Tag</span>
@@ -43,13 +43,13 @@
 								<c:param name="id">${ tagArticle.article.artId }</c:param>
 							</c:url>
                             <a href='${ removeUrl }'><span class="label label-danger">Remove</span></a>
-                            <a href="#send"><span class="label label-primary">Send</span></a>
+                            <a href="#send" ng-click="open()"><span class="label label-primary">Send</span></a>
                             <a href='${ modifyUrl }'><span class="label label-success">Modify</span></a>
                         </div>
                     </div>
                     <p class="row col-md-12">
                      	${ tagArticle.article.content }
-                     	<!-- 
+                     	<!--
                      	 ${ tagArticle.article.tags }
                      	 -->
                     </p>
@@ -67,5 +67,29 @@
 <script type="text/javascript" src="/resources/scripts/common/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/scripts/common/common.js"></script>
 <script type="text/javascript" src="/resources/scripts/tag.js"></script>
+<!-- modal -->
+<script type="text/ng-template" id="sendModal.html">
+    <div class="send-modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Send</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                        </div>
+                        <input ng-model="uid" type="text" class="form-control" placeholder="Note ID">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+
 </body>
 </html>

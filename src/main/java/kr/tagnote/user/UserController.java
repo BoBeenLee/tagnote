@@ -35,32 +35,43 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/setting")
-	public String settingView(Model model){
+	public String settingView(Model model, Principal principal){
+		User user = userService.findByEmail(principal.getName());
+		User.Response response = null;
+		
+		response = modelMapper.map(user, User.Response.class);
+		
+		model.addAttribute("user", response);
 		return "setting";
 	}
 	
 	@RequestMapping(value = "/setting/submit")
 	public String setting(User.Request request, Principal principal){
+		boolean isExists = true;
+//		User user = modelMapper.map(request, User.class);
+		User user = userService.findByEmail(principal.getName());
 		
+		isExists = userService.isExistsByUid(user.getUid());
+		if(isExists)
+			return "redirect:/setting?msg=uid";
+
+		user.setUid(request.getUid());
+		user.setPassword(request.getPassword());
+		userService.saveUser(user);
 		
 		return "redirect:/tag/list";
 	}
 	
-	
 	@RequestMapping(value = "/id/get")
 	@ResponseBody
-	public String getId(Principal principal){
+	public String getId(){
 		boolean isExists = true;
 		String uid = "";
-		User user = userService.findByEmail(principal.getName());
 		
 		do {
 			uid = CommonUtils.getRandomId();
 			isExists = userService.isExistsByUid(uid);
 		} while(isExists);
-		
-		user.setUid(uid);
-		userService.saveUser(user);
 		return uid;
 	}
 }

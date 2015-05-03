@@ -32,3 +32,9 @@
 .tag .main > .panel-body .panel-group .panel .panel-body p {
   padding: 10px 15px;
 }
+.send-modal {
+  text-align: center;
+}
+.send-modal .modal-body .btn {
+  width: 48%;
+}
