@@ -25,7 +25,7 @@
                 <c:forEach var="tagArticle" items="${ tagArticles.content }">
                 <accordion-group>
                     <accordion-heading>
-                        <span>${ tagArticle.article.subject }</span>
+                        <div>${ tagArticle.article.subject }</div>
                     </accordion-heading>
                     <div class="tag-label row">
                         <div class="col-md-9">

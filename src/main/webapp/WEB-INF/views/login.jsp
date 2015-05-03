@@ -29,7 +29,6 @@
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
-
                 </div>
                 <input type="password" name="password" class="form-control" placeholder="password">
             </div>

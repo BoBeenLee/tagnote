@@ -6,5 +6,20 @@
   background-color: #D9EDF8;
 }
 .main > .panel-body {
+  text-align: center;
   padding: 40px 35px;
+}
+.main > .panel-body form {
+  display: inline-block;
+  width: 300px;
+  /*    position: absolute;
+          top: 50%;
+          left: 50%;
+          margin: 50px 0px 0px -150px;*/
+}
+.main > .panel-body form input {
+  max-width: 300px;
+}
+.main > .panel-body form input[type=submit] {
+  width: 100%;
 }

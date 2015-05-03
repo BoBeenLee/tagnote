@@ -27,9 +27,11 @@ public class TagRepositoryTests {
 	@Autowired
 	TagArticleRepository tagArticleRepository;
 	
+	Tag tag = null;
+	
 	@Before
-	public void setup(){
-		Tag tag = new Tag();
+	public void insert(){
+		tag = new Tag();
 		tag.setName("test1");
 		tag.setColor("asdfbz");
 		tagRepository.save(tag);
@@ -82,7 +84,7 @@ public class TagRepositoryTests {
 	}
 	
 	 @After
-	public void deleteByName() {
+	public void delete() {
 		tagRepository.deleteByName("test1");
 	}
 }

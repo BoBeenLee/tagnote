@@ -31,6 +31,8 @@ public class Article {
 	private long artId;
 	@Column(name = "user_id")
 	private long userId;
+	@Column(name = "parent_id")
+	private long parentId;
 	private String subject;
 	private String content;
 	private Timestamp created;

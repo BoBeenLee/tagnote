@@ -35,9 +35,17 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/setting")
-	public String settings(Model model){
+	public String settingView(Model model){
 		return "setting";
 	}
+	
+	@RequestMapping(value = "/setting/submit")
+	public String setting(User.Request request, Principal principal){
+		
+		
+		return "redirect:/tag/list";
+	}
+	
 	
 	@RequestMapping(value = "/id/get")
 	@ResponseBody
