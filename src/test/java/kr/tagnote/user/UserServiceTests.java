@@ -48,6 +48,14 @@ public class UserServiceTests {
 	}
 	
 	@Test
+	public void updateUser(){
+		User user = userService.findByEmail("admin1@naver.com");
+		user.setPassword(passwordEncoder.encode("1234"));
+		
+		userService.saveUser(user);
+	}
+	
+	@Test
 	public void findByUid(){
 		assertNull(userService.findByUid("1"));
 	}

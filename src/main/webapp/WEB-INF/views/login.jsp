@@ -18,7 +18,7 @@
     <div class="box box-2"></div>
     <div class="box box-3"></div>
     <h3 class="box title">Tag Note</h3>
-    <form action="/user/login" method="post">
+    <form action="/user/login/submit" method="post">
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">

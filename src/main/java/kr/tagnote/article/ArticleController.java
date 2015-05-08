@@ -3,6 +3,7 @@ package kr.tagnote.article;
 import java.security.Principal;
 import java.util.List;
 
+import kr.tagnote.common.Value;
 import kr.tagnote.tag.Tag;
 import kr.tagnote.tag.TagArticle;
 import kr.tagnote.tag.TagArticleRepository;
@@ -38,72 +39,77 @@ public class ArticleController {
 	ArticleService articleService;
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	ModelMapper modelMapper;
-	
+
 	@RequestMapping(value = "")
 	public String main(@RequestParam("name") String name, Model model, Principal principal) {
 		Pageable pageable = new PageRequest(0, 100);
 		List<Article.Response> articleDtos = null;
 		Page<Article.Response> responses = null;
 		Page<Article> articles = articleService.findByPage(pageable);
-		
+
 		articleDtos = modelMapper.map(articles, new TypeToken<List<Article.Response>>() {
 		}.getType());
 		responses = new PageImpl<Article.Response>(articleDtos);
-	
+
 		model.addAttribute("articles", responses);
 		return "tag";
 	}
 
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String writeView(@RequestParam(value = "id", required = false, defaultValue = "0") long id, @RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
+	public String writeView(@RequestParam(value = "id", required = false, defaultValue = "0") long id,
+			@RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
 		User user = userService.findByEmail(principal.getName());
 		Article.Response response = new Article.Response();
 		Article article = null;
-		
-		if(id != 0)
-			article = articleService.findById(id); 
-		if(article != null && article.getUserId() == user.getUserId()){
+
+		if (id != 0)
+			article = articleService.findById(id);
+		if (article != null && article.getUserId() == user.getUserId()) {
 			response = modelMapper.map(article, Article.Response.class);
 			model.addAttribute("name", CommonUtils.urlEncode(name));
 		}
-		//		logger.info("writeView : " + name);
+		// logger.info("writeView : " + name);
 		model.addAttribute("article", response);
-		
 		return "article";
 	}
 
 	// 같은 /write url로 할 경우, 에러발생함.
 	@RequestMapping(value = "/write/submit", method = RequestMethod.GET)
-	public String write(@ModelAttribute("article") Article.Request request, @RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
-		String response = (name != null)? "redirect:/tag?name=" + name : "redirect:/tag/list";
-		
+	public String write(@ModelAttribute("article") Article.Request request,
+			@RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
+		String response = (name != null) ? "redirect:/tag?name=" + name : "redirect:/tag/list";
+
 		Article article = modelMapper.map(request, Article.class);
 		article.setTagList(request.getTags());
-		
+
 		articleService.saveArticle(article, principal.getName());
 		return response;
 	}
 
 	@RequestMapping(value = "/send")
 	@ResponseBody
-	public String send(@RequestParam("artId") long artId, @RequestParam("uid") String uid){
-		String msg = "success";
-		
+	public Value<String> send(@RequestParam("artId") long artId, @RequestParam("uid") String uid) {
+		 Value<String> response = new Value<String>();
+		 response.setValue("fail");
+
 		User user = userService.findByUid(uid);
 		Article article = articleService.findById(artId);
-		
-		article.setParentId(article.getArtId());
-		article.setArtId(0);
-		article.setTagList(Article.convertTagArticlesToTagList(article.getTagArticles()));
-		article.setUserId(user.getUserId());
-		
-		articleService.saveArticle(article, user.getEmail());
-		return msg;
+
+		if (user != null && article != null) {
+			article.setParentId(article.getArtId());
+			article.setArtId(0);
+			article.setTagList(Article.convertTagArticlesToTagList(article.getTagArticles()));
+			article.setUserId(user.getUserId());
+
+			articleService.saveArticle(article, user.getEmail());
+			response.setValue("success");
+		}
+		return response;
 	}
-	
+
 	@RequestMapping(value = "/paging")
 	public ModelAndView pagingMain() {
 		ModelAndView mv = new ModelAndView("article");
@@ -111,7 +117,7 @@ public class ArticleController {
 		List<Article.Response> articleDtos = null;
 		Page<Article.Response> responses = null;
 		Page<Article> articles = articleService.findByPage(pageable);
-		
+
 		articleDtos = modelMapper.map(articles, new TypeToken<List<Article.Response>>() {
 		}.getType());
 		responses = new PageImpl<Article.Response>(articleDtos);

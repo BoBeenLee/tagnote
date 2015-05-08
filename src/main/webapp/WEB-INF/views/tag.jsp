@@ -43,8 +43,8 @@
 								<c:param name="id">${ tagArticle.article.artId }</c:param>
 							</c:url>
                             <a href='${ removeUrl }'><span class="label label-danger">Remove</span></a>
-                            <a href="#send" ng-click="open()"><span class="label label-primary">Send</span></a>
                             <a href='${ modifyUrl }'><span class="label label-success">Modify</span></a>
+                                  <a href="#send" class="pop-up" popover="{{ msg }}"><span class="label label-primary" ng-click="open(${ tagArticle.article.artId }); $event.stopPropagation();">Send</span></a>
                         </div>
                     </div>
                     <p class="row col-md-12">

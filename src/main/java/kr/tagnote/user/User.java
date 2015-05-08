@@ -52,6 +52,7 @@ public class User implements Serializable {
 		private String email;
 		private String uid;
 		private String password;
+		private String password1;
 		private Auth auth;
 	}
 

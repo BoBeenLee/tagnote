@@ -1,6 +1,8 @@
 package kr.tagnote;
 
-import kr.tagnote.security.TagMemoUserDetailsService;
+import kr.tagnote.security.TagNoteAuthenticationFailureHandler;
+import kr.tagnote.security.TagNoteAuthenticationSuccessHandler;
+import kr.tagnote.security.TagNoteUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +23,11 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	TagMemoUserDetailsService tagMemoDetailsService;
+	TagNoteUserDetailsService tagMemoDetailsService;
+	@Autowired
+	TagNoteAuthenticationFailureHandler tagNoteAuthenticationFailureHandler;
+	@Autowired
+	TagNoteAuthenticationSuccessHandler tagNoteAuthenticationSuccessHandler;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
@@ -48,15 +54,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// auth
 		http.authorizeRequests().antMatchers("/resources/**").permitAll();
 
-		http.authorizeRequests().antMatchers("/**")
-				.access("hasRole('ROLE_USER')").antMatchers("/user/admin/**")
-				.access("hasRole('ROLE_ADMIN')");
+		http.authorizeRequests()
+			.antMatchers("/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+			.antMatchers("/user/admin/**").access("hasRole('ROLE_ADMIN')");
 //		.anyRequest().authenticated()
 //				.and().httpBasic();
 
-		http.formLogin().loginPage("/user/login").usernameParameter("email")
-				.passwordParameter("password").defaultSuccessUrl("/tag/list")
-				.failureUrl("/user/login?status=error").and().logout()
-				.logoutUrl("/user/logout").logoutSuccessUrl("/user/login");
+		http.formLogin().loginPage("/user/login").loginProcessingUrl("/user/login/submit").usernameParameter("email")
+				.passwordParameter("password").successHandler(tagNoteAuthenticationSuccessHandler)
+				.failureHandler(tagNoteAuthenticationFailureHandler)
+				.and().logout().logoutUrl("/user/logout").logoutSuccessUrl("/user/login")
+				.and();
+//				.rememberMe();
 	}
 }

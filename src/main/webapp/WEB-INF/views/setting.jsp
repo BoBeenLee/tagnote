@@ -15,9 +15,12 @@
 <body>
 <div ng-controller="settingController" class="container setting" >
     <div class="main panel panel-default">
-        <div class="panel-heading"><span>Settings</span></div>
+        <div class="panel-heading">
+        	<span>Settings</span>
+        	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
+        </div>
         <div class="panel-body">
-            <form action="/user/setting/submit" method="post">
+            <form action="/user/setting/submit" method="get">
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
@@ -34,7 +37,7 @@
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" name="uid" ng-model="uid" class="form-control" placeholder="TagNote ID" value="${ user.uid }">
+                        <input type="text" name="uid" ng-model="uid" class="form-control" placeholder="TagNote ID" ng-init="uid='${ user.uid }'">
                         <a class="input-group-addon btn btn-default" href="#" ng-click="generate()">Generate</a>
                     </div>
                 </div>

@@ -10,18 +10,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * @author Keeun Baik
  */
-public class TagMemoUserDetails implements UserDetails {
+public class TagNoteUserDetails implements UserDetails {
 	private User user;
 
-	public TagMemoUserDetails(User user) {
+	public TagNoteUserDetails(User user) {
 		this.user = user;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+		return Arrays.asList(new SimpleGrantedAuthority(user.getAuth().getName()));
 	}
 
 	@Override

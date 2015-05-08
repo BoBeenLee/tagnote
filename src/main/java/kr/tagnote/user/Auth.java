@@ -15,4 +15,8 @@ public class Auth {
 	@Column(name = "auth_id")
 	private int authId;
 	private String name;
+	
+	public static enum Role {
+		ADMIN, USER
+	}
 }

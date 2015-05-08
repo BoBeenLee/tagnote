@@ -10,22 +10,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * @author Keeun Baik
  */
 @Service
-public class TagMemoUserDetailsService implements UserDetailsService {
+public class TagNoteUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.findByEmail(email);
-        
-        System.out.println("user : " + user);
-        
+//        System.out.println("user : " + user);
         if(user == null) {
             throw new UsernameNotFoundException(email);
         }
-        return new TagMemoUserDetails(user);
+        return new TagNoteUserDetails(user);
     }
 }

@@ -1,7 +1,7 @@
 var tag = angular.module('tag', ['ui.bootstrap']);
 
 tag.controller("tagController", function ($scope, $modal, $log, $timeout) {
-    $scope.open = function (artId, e) {
+    $scope.open = function (artId) {
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: 'sendModal.html',
@@ -36,13 +36,13 @@ tag.controller("tagController", function ($scope, $modal, $log, $timeout) {
 // It is not the same as the $modal service used above.
 tag.controller('ModalInstanceCtrl', function ($scope, $http, $modalInstance, artId) {
     $scope.ok = function () {
-        $http.get('/tag/ajax', {
+        $http.get('/article/send', {
             params: {
                 artId: artId,
                 uid: $scope.uid
             }
         }).then(function (response) {
-                if (response == "success")
+                if (response.data.value == "success")
                     $modalInstance.close(true);
                 else
                     $modalInstance.close(false);

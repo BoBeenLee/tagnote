@@ -21,11 +21,20 @@
 		<div class="header row col-md-12">
 			<table>
 				<thead>
-					<th><a class="btn btn-default" href="#">Home</a></th>
-					<th><a class="btn btn-default pull-right"
-						href="/article/write">Write</a></th>
-					<th><a class="btn btn-default pull-right" href="/user/setting">Setting</a>
-					</th>
+					<tr>
+	                    <th>
+	                        <a class="btn btn-default" href="#">home</a>
+	                    </th>
+	                    <th>
+	                        <a class="btn btn-default pull-right" href="/article/write">write</a>
+	                    </th>
+	                    <th>
+	                        <a class="btn btn-default pull-right" href="/user/logout">logout</a>
+	                    </th>
+	                    <th>
+	                        <a class="btn btn-default pull-right" href="/user/setting">settings</a>
+	                    </th>
+		            </tr>					
 				</thead>
 			</table>
 		</div>
