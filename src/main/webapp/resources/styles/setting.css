@@ -5,6 +5,9 @@
   color: #55C0E0;
   background-color: #D9EDF8;
 }
+.setting .main > .panel-heading img {
+  width: 20px;
+}
 .setting .main > .panel-body {
   text-align: center;
   padding: 40px 35px;

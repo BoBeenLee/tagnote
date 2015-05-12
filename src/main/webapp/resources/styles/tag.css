@@ -10,6 +10,9 @@
   color: #DB5287;
   background-color: #F2DEDF;
 }
+.tag .main > .panel-heading img {
+  width: 20px;
+}
 .tag .main > .panel-body {
   padding: 40px 35px;
 }

@@ -10,6 +10,10 @@ public class CommonUtils {
 	public static String getRandomColor() {
 		int random = (int) (Math.random() * Math.pow(16, 6));
 		// System.out.println("random : " + random);
+		int noWhite = 48;
+		
+		if(noWhite < random)
+			random -= noWhite; // ffffff 방지
 		return String.format("%06X", random);
 	}
 

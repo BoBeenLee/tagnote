@@ -5,6 +5,9 @@
   color: #59B98B;
   background-color: #E0F0D6;
 }
+.main > .panel-heading img {
+  width: 20px;
+}
 .main > .panel-body {
   padding: 40px 35px;
 }
