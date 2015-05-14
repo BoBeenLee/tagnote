@@ -16,7 +16,7 @@
 <div ng-controller="settingController" class="container setting" >
     <div class="main panel panel-default">
         <div class="panel-heading">
-        	<span>Settings</span>
+        	<span><img src="/resources/img/common-settings-gear.png" /></span>
         	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
         </div>
         <div class="panel-body">
@@ -24,6 +24,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
+                        	<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                         </div>
                         <input type="email" name="email" class="form-control" placeholder="example@example.com" value="${ user.email }" readonly>
                     </div>
@@ -31,6 +32,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">
+                         	<span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
                         </div>
                         <input type="password" name="password" class="form-control" placeholder="password">
                     </div>

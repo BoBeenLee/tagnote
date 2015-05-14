@@ -20,7 +20,7 @@ public class TagNoteUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.findByEmail(email);
 //        System.out.println("user : " + user);
-        if(user == null) {
+        if(user == null || user.getType() != null) {
             throw new UsernameNotFoundException(email);
         }
         return new TagNoteUserDetails(user);

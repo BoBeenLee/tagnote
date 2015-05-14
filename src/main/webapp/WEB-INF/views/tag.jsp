@@ -17,7 +17,7 @@
 <div ng-controller="tagController" class="tag container">
     <div class="main panel panel-default">
         <div class="panel-heading" style="background-color: #${ tag.color }; color: white;">
-        	#<span>Tag</span>
+        	<span><img src="/resources/img/common-tag.png" /></span>
         	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
        	</div>
         <div class="panel-body">

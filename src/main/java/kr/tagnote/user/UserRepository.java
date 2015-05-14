@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	@Query("SELECT u IS NOT NULL FROM User u WHERE u.uid = :uid")
 	public Boolean isExistsByUid(@Param("uid") String uid);
+	@Query("SELECT u IS NOT NULL FROM User u WHERE u.email = :email")
+	public Boolean isExistsByEmail(@Param("email") String email);
 }

@@ -1,17 +1,28 @@
 package kr.tagnote.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import kr.tagnote.common.Value;
+import kr.tagnote.user.User.Facebook;
+import kr.tagnote.user.User.Google;
 import kr.tagnote.util.CommonUtils;
+import kr.tagnote.util.HttpUtils;
+import kr.tagnote.util.JacksonUtils;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +30,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 @RequestMapping("/user")
@@ -54,6 +66,10 @@ public class UserController {
 	@RequestMapping(value = "/register/submit")
 	public String register(@Valid @ModelAttribute("register") User.Request request) {
 		User user = modelMapper.map(request, User.class);
+		
+		if(userService.isExistsByEmail(user.getEmail()))
+			return "redirect:/user/login?status=1";
+		
 		user.setAuth(new Auth() {
 			{
 				this.setAuthId(Auth.Role.USER.ordinal());
@@ -98,6 +114,24 @@ public class UserController {
 		return "redirect:/tag/list";
 	}
 
+	@RequestMapping(value = "/social")
+	public String social(@RequestParam("accessToken") String accessToken, @RequestParam("type") String type) {
+		logger.info("accessToken : " + accessToken + " - type : " + type);
+		User user = userService.findOrSaveByAccessTokenAndType(accessToken, type);
+		
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority(user.getAuth().getName()));
+		Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), authorities);
+		SecurityContextHolder.getContext().setAuthentication(auth);
+
+		return "redirect:/tag/list";
+	}
+
+	@RequestMapping(value = "/fblogout")
+	public String fblogout(){
+		return "fblogout";
+	}
+	
 	@RequestMapping(value = "/id/get")
 	@ResponseBody
 	public Value<String> getId() {

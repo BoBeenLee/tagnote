@@ -2,6 +2,7 @@ package kr.tagnote;
 
 import kr.tagnote.security.TagNoteAuthenticationFailureHandler;
 import kr.tagnote.security.TagNoteAuthenticationSuccessHandler;
+import kr.tagnote.security.TagNoteLogoutHandler;
 import kr.tagnote.security.TagNoteUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -29,8 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	TagNoteAuthenticationSuccessHandler tagNoteAuthenticationSuccessHandler;
 	@Autowired
+	TagNoteLogoutHandler tagNoteLogoutHandler;
+	@Autowired
 	PasswordEncoder passwordEncoder;
-
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {
@@ -50,7 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// http.authorizeRequests().antMatchers("/**").permitAll();
 		http.authorizeRequests().antMatchers("/user/login").permitAll(); // .anyRequest().authenticated().and().httpBasic();
-
+		http.authorizeRequests().antMatchers("/user/register").permitAll();
+		http.authorizeRequests().antMatchers("/user/social").permitAll();
+		http.authorizeRequests().antMatchers("/user/fblogout").permitAll();
+		
 		// auth
 		http.authorizeRequests().antMatchers("/resources/**").permitAll();
 
@@ -59,11 +66,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/user/admin/**").access("hasRole('ROLE_ADMIN')");
 //		.anyRequest().authenticated()
 //				.and().httpBasic();
-
+		
 		http.formLogin().loginPage("/user/login").loginProcessingUrl("/user/login/submit").usernameParameter("email")
 				.passwordParameter("password").successHandler(tagNoteAuthenticationSuccessHandler)
 				.failureHandler(tagNoteAuthenticationFailureHandler)
-				.and().logout().logoutUrl("/user/logout").logoutSuccessUrl("/user/login")
+				.and().logout().logoutUrl("/user/logout").addLogoutHandler(tagNoteLogoutHandler).logoutSuccessUrl("/user/login")
 				.and();
 //				.rememberMe();
 	}

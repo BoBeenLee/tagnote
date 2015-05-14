@@ -23,16 +23,16 @@
 				<thead>
 					<tr>
 	                    <th>
-	                        <a class="btn btn-default" href="#">home</a>
+	                        <a class="btn btn-default" href="#"><img src="/resources/img/common-search.png"></a>
 	                    </th>
 	                    <th>
-	                        <a class="btn btn-default pull-right" href="/article/write">write</a>
+	                        <a class="btn btn-default pull-right" href="/article/write"><img src="/resources/img/common-editor-pencil.png"></a>
 	                    </th>
 	                    <th>
-	                        <a class="btn btn-default pull-right" href="/user/logout">logout</a>
+							<a class="btn btn-default pull-right" href="/user/setting"><img src="/resources/img/common-settings-gear.png"></a>	                        
 	                    </th>
 	                    <th>
-	                        <a class="btn btn-default pull-right" href="/user/setting">settings</a>
+	                        <a class="btn btn-default pull-right" href="/user/logout"><img src="/resources/img/common-logout-signout-exit.png"></a>
 	                    </th>
 		            </tr>					
 				</thead>
@@ -47,16 +47,12 @@
 		</div>
 	</div>
 
-	<script type="text/javascript"
-		src="/resources/scripts/common/less.min.js"></script>
-	<script type="text/javascript"
-		src="/resources/scripts/common/jquery-2.1.3.min.js"></script>
-	<script type="text/javascript"
-		src="/resources/scripts/common/angular.min.js"></script>
-	<script type="text/javascript"
-		src="/resources/scripts/common/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="/resources/scripts/common/common.js"></script>
+	<script type="text/javascript" src="/resources/scripts/common/less.min.js"></script>
+	<script type="text/javascript" src="/resources/scripts/common/jquery-2.1.3.min.js"></script>
+	<script type="text/javascript" src="/resources/scripts/common/angular.min.js"></script>
+	<script type="text/javascript" src="/resources/scripts/common/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/resources/scripts/common/facebook.js"></script>
+	<script type="text/javascript" src="/resources/scripts/common/common.js"></script>
 	<script type="text/javascript" src="/resources/scripts/main.js"></script>
 </body>
 </html>

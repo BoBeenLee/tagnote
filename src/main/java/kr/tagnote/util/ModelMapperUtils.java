@@ -13,7 +13,7 @@ import org.modelmapper.TypeToken;
 import org.modelmapper.spi.MappingContext;
 
 public class ModelMapperUtils {
-	public static ModelMapper newInstance() {
+/*	public static ModelMapper newInstance() {
 		final ModelMapper modelMapper = new ModelMapper();
 
 		PropertyMap<Article, Article.Response> propertyArticleMap = new PropertyMap<Article, Article.Response>() {
@@ -52,5 +52,5 @@ public class ModelMapperUtils {
 		};
 		modelMapper.addConverter(converter);
 		return modelMapper;
-	}
+	}*/
 }

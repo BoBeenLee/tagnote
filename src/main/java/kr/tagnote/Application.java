@@ -22,6 +22,7 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
@@ -71,6 +72,11 @@ public class Application extends SpringBootServletInitializer {
 		return modelMapper;
 	}
 
+	@Bean
+	public RestTemplate restTemplate(){
+		return new RestTemplate();
+	}
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new StandardPasswordEncoder();

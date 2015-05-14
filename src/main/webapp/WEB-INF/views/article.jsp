@@ -17,7 +17,7 @@
 <div ng-controller="articleController" class="article container" ng-init='init(${ article.jsonTags })'>
     <div class="main panel panel-default">
         <div class="panel-heading">
-        	<span>Article</span>
+        	<span><img src="/resources/img/common-editor-pencil.png" /></span>
         	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
         </div>
         <div class="panel-body">

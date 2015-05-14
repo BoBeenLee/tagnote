@@ -22,6 +22,7 @@
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
+                	<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                 </div>
                 <input type="email" name="email" class="form-control" placeholder="example@example.com">
             </div>
@@ -29,19 +30,37 @@
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-addon">
+                	<span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
                 </div>
                 <input type="password" name="password" class="form-control" placeholder="password">
             </div>
         </div>
         <input type="submit" class="btn btn-default" value="Confirm" />
     </form>
+    
+    <span id="googleSigninButton">
+    <span
+              class="g-signin"
+              data-callback="signinGoogleCallback"
+              data-clientid="94680954925-k6rvvoj4aui3od553lke3v3dtb8kcq3u.apps.googleusercontent.com"
+              data-cookiepolicy="single_host_origin"
+              data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
+              data-width="iconOnly">
+    </span>
+    </span>
+
+    <fb:login-button scope="public_profile,email" onlogin="signinFacebookCallback();">
+    </fb:login-button>
+    <div id="status">
+    </div>
 </div>
 
 <script type="text/javascript" src="/resources/scripts/common/less.min.js"></script>
 <script type="text/javascript" src="/resources/scripts/common/jquery-2.1.3.min.js"></script>
 <script type="text/javascript" src="/resources/scripts/common/angular.min.js"></script>
 <script type="text/javascript" src="/resources/scripts/common/bootstrap.min.js"></script>
-<script type="text/javascript" src="/resources/scripts/common/common.js"></script>
+<script type="text/javascript" src="/resources/scripts/common/facebook.js"></script>
+<script type="text/javascript" src="/resources/scripts/common/google.js"></script>
 <script type="text/javascript" src="/resources/scripts/login.js"></script>
 </body>
 </html>
