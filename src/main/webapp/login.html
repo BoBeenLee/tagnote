@@ -32,24 +32,32 @@
                 <input type="password" class="form-control" placeholder="password">
             </div>
         </div>
+
         <input type="submit" class="btn btn-default" value="Confirm"/>
+
+        <div class="form-etc">
+            <div class="email-sign-up">
+                <a href="#">Sign up Now!</a>
+            </div>
+            <div class="fb-login-button" data-scope="public_profile,email" onlogin="signinFacebookCallback()"  data-max-rows="1" data-size="large" data-show-faces="false"
+                 data-auto-logout-link="false"></div>
+            <div class="google-login-button" id="googleSigninButton">
+              <span
+                      class="g-signin"
+                      data-callback="signinGoogleCallback"
+                      data-clientid="94680954925-k6rvvoj4aui3od553lke3v3dtb8kcq3u.apps.googleusercontent.com"
+                      data-cookiepolicy="single_host_origin"
+                      data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
+                      data-width="iconOnly">
+              </span>
+            </div>
+            <!--<fb:login-button scope="public_profile,email" onlogin="signinFacebookCallback();">
+            </fb:login-button>-->
+            <div id="fb-root"></div>
+            <div id="status">
+            </div>
+        </div>
     </form>
-
-    <span id="googleSigninButton">
-      <span
-              class="g-signin"
-              data-callback="signinGoogleCallback"
-              data-clientid="94680954925-k6rvvoj4aui3od553lke3v3dtb8kcq3u.apps.googleusercontent.com"
-              data-cookiepolicy="single_host_origin"
-              data-scope="https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
-              data-width="iconOnly">
-      </span>
-    </span>
-
-    <fb:login-button scope="public_profile,email" onlogin="signinFacebookCallback();">
-    </fb:login-button>
-    <div id="status">
-    </div>
 </div>
 
 <script type="text/javascript" src="resources/scripts/common/less.min.js"></script>

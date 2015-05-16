@@ -1,11 +1,16 @@
 package kr.tagnote;
 
+import javax.servlet.Filter;
+
 import kr.tagnote.security.TagNoteAuthenticationFailureHandler;
 import kr.tagnote.security.TagNoteAuthenticationSuccessHandler;
+import kr.tagnote.security.TagNoteLoginFilter;
 import kr.tagnote.security.TagNoteLogoutHandler;
 import kr.tagnote.security.TagNoteUserDetailsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,6 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	TagNoteLogoutHandler tagNoteLogoutHandler;
 	@Autowired
+	TagNoteLoginFilter tagNoteLoginFilter;
+	@Autowired
 	PasswordEncoder passwordEncoder;
 	
 	@Override
@@ -58,6 +65,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/user/social").permitAll();
 		http.authorizeRequests().antMatchers("/user/fblogout").permitAll();
 		
+		// for Test
+		http.authorizeRequests().antMatchers("/test/**").permitAll();
+		
 		// auth
 		http.authorizeRequests().antMatchers("/resources/**").permitAll();
 
@@ -67,11 +77,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		.anyRequest().authenticated()
 //				.and().httpBasic();
 		
-		http.formLogin().loginPage("/user/login").loginProcessingUrl("/user/login/submit").usernameParameter("email")
+		http
+		.formLogin().loginPage("/user/login").loginProcessingUrl("/user/login/submit").usernameParameter("email")
 				.passwordParameter("password").successHandler(tagNoteAuthenticationSuccessHandler)
 				.failureHandler(tagNoteAuthenticationFailureHandler)
-				.and().logout().logoutUrl("/user/logout").addLogoutHandler(tagNoteLogoutHandler).logoutSuccessUrl("/user/login")
+				.and()
+				.logout().logoutUrl("/user/logout").addLogoutHandler(tagNoteLogoutHandler).logoutSuccessUrl("/user/login")
 				.and();
 //				.rememberMe();
+	}
+	
+	@Bean
+	public FilterRegistrationBean loginFilter() {
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(tagNoteLoginFilter);
+		filterRegistrationBean.addUrlPatterns("/user/login/submit");
+		filterRegistrationBean.setOrder(1);
+		return filterRegistrationBean;
 	}
 }

@@ -30,9 +30,11 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestAttributes;
 
 @Controller
 @RequestMapping("/user")
@@ -53,7 +55,7 @@ public class UserController {
 		binder.addValidators(userValidator);
 	}
 
-	@RequestMapping(value = "/login")
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginView() {
 		return "login";
 	}
@@ -66,10 +68,10 @@ public class UserController {
 	@RequestMapping(value = "/register/submit")
 	public String register(@Valid @ModelAttribute("register") User.Request request) {
 		User user = modelMapper.map(request, User.class);
-		
-		if(userService.isExistsByEmail(user.getEmail()))
+
+		if (userService.isExistsByEmail(user.getEmail()))
 			return "redirect:/user/login?status=1";
-		
+
 		user.setAuth(new Auth() {
 			{
 				this.setAuthId(Auth.Role.USER.ordinal());
@@ -118,7 +120,7 @@ public class UserController {
 	public String social(@RequestParam("accessToken") String accessToken, @RequestParam("type") String type) {
 		logger.info("accessToken : " + accessToken + " - type : " + type);
 		User user = userService.findOrSaveByAccessTokenAndType(accessToken, type);
-		
+
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(user.getAuth().getName()));
 		Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), authorities);
@@ -128,10 +130,10 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/fblogout")
-	public String fblogout(){
+	public String fblogout() {
 		return "fblogout";
 	}
-	
+
 	@RequestMapping(value = "/id/get")
 	@ResponseBody
 	public Value<String> getId() {

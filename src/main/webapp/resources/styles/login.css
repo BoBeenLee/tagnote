@@ -49,3 +49,17 @@
 .login form input[type=submit] {
   width: 100%;
 }
+.login form .form-etc {
+  padding-top: 10px;
+  text-align: right;
+}
+.login form .form-etc .email-sign-up {
+  display: inline-block;
+  float: left;
+}
+.login form .form-etc .google-login-button {
+  display: inline-block;
+}
+.login form .form-etc .fb-login-button {
+  top: -5px;
+}

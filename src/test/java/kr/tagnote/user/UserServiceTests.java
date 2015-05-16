@@ -30,6 +30,12 @@ public class UserServiceTests {
 	UserRepository userRepository;
 	
 	@Test
+	public void findByEmail(){
+		String email = "tsettest";
+		assertNull(userService.findByEmail(email));
+	}
+	
+	@Test
 	public void deleteByEmail(){
 		assertTrue(userService.deleteByEmail("admin11@naver.com"));
 	}
@@ -57,12 +63,12 @@ public class UserServiceTests {
 	
 	@Test
 	public void findByUid(){
-		assertNull(userService.findByUid("1"));
+		assertNotNull(userService.findByUid("1"));
 	}
 	
 	@Test
 	public void isExistsByUid(){
-		assertNull(userService.isExistsByUid("1DbTeNcrdI"));
+		assertTrue(!userService.isExistsByUid("1DbTeNcrdI"));
 	}
 	
 	@Test
