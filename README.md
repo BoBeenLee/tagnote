@@ -1,2 +1,8 @@
-# tag-note-server
-tag-note-server
+# TagNote
+
++ Spring Boot
++ Spring-Data-JPA
++ MySQL
++ AngularJS
++ LessJS
+
