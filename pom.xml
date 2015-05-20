@@ -6,7 +6,7 @@
 	<groupId>kr</groupId>
 	<artifactId>tagnote</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>tagnote</name>
 	<description>tagnote project for Spring Boot</description>
