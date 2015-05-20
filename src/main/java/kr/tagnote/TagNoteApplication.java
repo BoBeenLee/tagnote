@@ -25,12 +25,15 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
+public class TagNoteApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(TagNoteApplication.class, args);
 	}
 
+	
+	
+	
 	@Bean
 	public ModelMapper modelMapper() {
 		final ModelMapper modelMapper = new ModelMapper();
@@ -84,7 +87,7 @@ public class Application extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Application.class);
+		return application.sources(TagNoteApplication.class);
 	}
 	
 	/*

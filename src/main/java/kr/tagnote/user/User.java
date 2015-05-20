@@ -16,18 +16,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Data
+@Table(name = "\"user\"")
 @Entity
 public class User implements Serializable {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "auto_gen")
+	@SequenceGenerator(name = "auto_gen", sequenceName = "user_user_id_seq")
 	@Column(name = "user_id")
 	private Long userId;
 	@Column(name = "email", unique = true)

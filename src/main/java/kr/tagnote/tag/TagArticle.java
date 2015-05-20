@@ -4,9 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -18,7 +20,8 @@ import lombok.Data;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"tag_id", "art_id"}))
 public class TagArticle {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "auto_gen")
+	@SequenceGenerator(name = "auto_gen", sequenceName = "tag_article_tag_art_id_seq")
 	@Column(name = "tag_art_id")
 	private long tagArtId;
 

@@ -9,10 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
 
@@ -20,7 +22,8 @@ import lombok.Data;
 @Entity
 public class Tag {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "auto_gen")
+	@SequenceGenerator(name = "auto_gen", sequenceName = "tag_tag_id_seq")
 	@Column(name = "tag_id")
 	private int tagId;
 	@Column(unique = true)

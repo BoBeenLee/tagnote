@@ -1,11 +1,9 @@
 spring:
-  datasource:
-    driverClassName: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/tagnote
-    username: developer
-    password: developer
   view:
     prefix: /WEB-INF/views/
     suffix: .jsp
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
 server:
   port: 8080

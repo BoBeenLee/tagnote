@@ -77,7 +77,7 @@ public class ArticleController {
 	}
 
 	// 같은 /write url로 할 경우, 에러발생함.
-	@RequestMapping(value = "/write/submit", method = RequestMethod.GET)
+	@RequestMapping(value = "/write/submit", method = RequestMethod.POST)
 	public String write(@ModelAttribute("article") Article.Request request,
 			@RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
 		String response = (name != null) ? "redirect:/tag?name=" + name : "redirect:/tag/list";
@@ -97,12 +97,13 @@ public class ArticleController {
 
 		User user = userService.findByUid(uid);
 		Article article = articleService.findById(artId);
-
+		Article createArticle = null;
+		
 		if (user != null && article != null) {
-			article.setParentId(article.getArtId());
-			article.setArtId(0);
-			article.setTagList(Article.convertTagArticlesToTagList(article.getTagArticles()));
-			article.setUserId(user.getUserId());
+			createArticle = new Article();
+			createArticle.setParentId(article.getArtId());
+			createArticle.setTagList(Article.convertTagArticlesToTagList(article.getTagArticles()));
+			createArticle.setUserId(user.getUserId());
 
 			articleService.saveArticle(article, user.getEmail());
 			response.setValue("success");

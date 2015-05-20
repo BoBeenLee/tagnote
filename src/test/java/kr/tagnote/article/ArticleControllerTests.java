@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import kr.tagnote.Application;
+import kr.tagnote.TagNoteApplication;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = TagNoteApplication.class)
 public class ArticleControllerTests {
 	@Autowired
 	ArticleController articleController;

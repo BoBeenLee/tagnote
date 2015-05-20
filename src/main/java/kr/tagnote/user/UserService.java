@@ -7,11 +7,11 @@ import kr.tagnote.user.User.Google;
 import kr.tagnote.util.HttpUtils;
 import kr.tagnote.util.JacksonUtils;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -42,6 +42,7 @@ public class UserService {
 		return user;
 	}
 
+	@Transactional
 	public User saveUser(User user) {
 		user = userRepository.save(user);
 		return user;

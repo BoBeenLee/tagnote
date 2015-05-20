@@ -20,7 +20,7 @@
         	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
         </div>
         <div class="panel-body">
-            <form action="/user/setting/submit" method="get">
+            <form action="/user/setting/submit" method="post">
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">

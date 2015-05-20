@@ -10,7 +10,6 @@ import lombok.Data;
 @Entity
 public class Test {
 	@Id
-	@GeneratedValue
 	private String name;
 	private int value;
 }

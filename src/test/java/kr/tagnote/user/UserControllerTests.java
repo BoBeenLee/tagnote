@@ -10,7 +10,7 @@ import java.security.Principal;
 
 import javax.transaction.Transactional;
 
-import kr.tagnote.Application;
+import kr.tagnote.TagNoteApplication;
 import kr.tagnote.util.CommonUtils;
 
 import org.junit.Before;
@@ -27,7 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = TagNoteApplication.class)
 public class UserControllerTests {
 	@Autowired
 	UserController userController;

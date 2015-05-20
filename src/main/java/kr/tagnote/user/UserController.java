@@ -100,7 +100,7 @@ public class UserController {
 		return "setting";
 	}
 
-	@RequestMapping(value = "/setting/submit")
+	@RequestMapping(value = "/setting/submit", method = RequestMethod.POST)
 	public String setting(@ModelAttribute("user") User.Request request, Principal principal) {
 		boolean isExists = true;
 		User user = userService.findByEmail(principal.getName());
@@ -110,7 +110,8 @@ public class UserController {
 			return "redirect:/setting?msg=uid";
 
 		user.setUid(request.getUid());
-		user.setPassword(passwordEncoder.encode(request.getPassword()));
+		if (request.getPassword() != null && !request.getPassword().equals(""))
+			user.setPassword(passwordEncoder.encode(request.getPassword()));
 		userService.saveUser(user);
 
 		return "redirect:/tag/list";
@@ -121,6 +122,7 @@ public class UserController {
 		logger.info("accessToken : " + accessToken + " - type : " + type);
 		User user = userService.findOrSaveByAccessTokenAndType(accessToken, type);
 
+		logger.info("user.getAuth().getName() : " + user.getAuth().getName());
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(user.getAuth().getName()));
 		Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), authorities);

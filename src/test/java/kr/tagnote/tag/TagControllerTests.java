@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.tagnote.Application;
+import kr.tagnote.TagNoteApplication;
 import kr.tagnote.article.Article;
 import kr.tagnote.util.CommonUtils;
 
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = TagNoteApplication.class)
 public class TagControllerTests {
 	@Autowired
 	TagService tagService;

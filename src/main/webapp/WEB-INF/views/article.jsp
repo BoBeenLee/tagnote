@@ -21,7 +21,7 @@
         	<div class="pull-right"><a href="/tag/list"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></div>
         </div>
         <div class="panel-body">
-            <form action="/article/write/submit" method="get">
+            <form action="/article/write/submit" method="post">
                 <!--<pre>Model: {{tags}}</pre>-->
                 <div class="form-group">
                     <label>Title</label>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <label>Tag</label>
-                    <tags-input ng-model="tags">
+                    <tags-input ng-model="tags" min-length="1">
                         <auto-complete source="getTag($query)"></auto-complete>
                     </tags-input>
                     <input type="hidden" name="tags" value="{{getTags(tags)}}"/>
