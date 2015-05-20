@@ -33,6 +33,7 @@ public class UserControllerTests {
 	UserController userController;
 
 	@Test
+	@Ignore
 	public void getId(){
 //		String uid = userController.getId();
 //		assertNotNull(uid);

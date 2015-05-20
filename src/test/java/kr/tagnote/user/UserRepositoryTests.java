@@ -24,16 +24,19 @@ public class UserRepositoryTests {
 	AuthRepository authRepository;
 	
 	@Test
+	@Ignore
 	public void findByEmail(){
 		assertNotNull(userRepository.findByEmail("admin1@naver.com"));
 	}
 	
 	@Test
+	@Ignore
 	public void deleteByEmail(){
 		assertTrue(0 == userRepository.deleteByEmail("admin8@naver.com"));
 	}
 	
 	@Test
+	@Ignore
 	public void isExistsByUid(){
 		assertNotNull(userRepository.isExistsByUid("1"));
 	}

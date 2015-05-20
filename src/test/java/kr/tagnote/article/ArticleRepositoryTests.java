@@ -23,5 +23,9 @@ public class ArticleRepositoryTests {
 	@Autowired
 	ArticleRepository articleRepository;
 
-	
+	@Test
+	@Ignore
+	public void test(){
+		
+	}
 }

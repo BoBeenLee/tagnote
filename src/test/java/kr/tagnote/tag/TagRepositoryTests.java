@@ -11,6 +11,7 @@ import kr.tagnote.article.Article;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class TagRepositoryTests {
 	Tag tag = null;
 	
 	@Before
+	@Ignore
 	public void insert(){
 		tag = new Tag();
 		tag.setName("test1");
@@ -38,11 +40,13 @@ public class TagRepositoryTests {
 	}
 	
 	@Test
+	@Ignore
 	public void findByName(){
 		assertNotNull(tagRepository.findByName("test1"));
 	}
 
 	@Test
+	@Ignore
 	public void findByNameContaining(){
 	/*	System.out.println("findByNameContaining : ");
 		List<Tag> tags = tagRepository.findByNameContaining("tes");
@@ -52,6 +56,7 @@ public class TagRepositoryTests {
 	}
 	
 	@Test
+	@Ignore
 	public void findByTagIdAndUserId(){
 		int tagId = tagRepository.findByName("test1").getTagId();
 		long userId = 1;
@@ -61,6 +66,7 @@ public class TagRepositoryTests {
 	}
 	
 	@Test
+	@Ignore
 	public void findByTag(){
 		Tag tag = tagRepository.findByName("test1");
 		Pageable pageable = new PageRequest(0, 100);
@@ -69,6 +75,7 @@ public class TagRepositoryTests {
 	}
 	
 	@Test
+	@Ignore
 	public void findByArticleAndTag(){
 		Article article = new Article(){{
 			setArtId(1);
@@ -79,11 +86,13 @@ public class TagRepositoryTests {
 	}
 	
 	@Test
+	@Ignore
 	public void findByUserId(){
 		System.out.println(tagRepository.findByUserId(2).size());
 	}
 	
 	 @After
+	 @Ignore
 	public void delete() {
 		tagRepository.deleteByName("test1");
 	}

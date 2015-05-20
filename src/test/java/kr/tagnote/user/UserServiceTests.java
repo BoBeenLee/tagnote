@@ -30,17 +30,20 @@ public class UserServiceTests {
 	UserRepository userRepository;
 	
 	@Test
+	@Ignore
 	public void findByEmail(){
 		String email = "tsettest";
 		assertNull(userService.findByEmail(email));
 	}
 	
 	@Test
+	@Ignore
 	public void deleteByEmail(){
 		assertTrue(userService.deleteByEmail("admin11@naver.com"));
 	}
 	
 	@Test
+	@Ignore
 	public void saveUser(){
 		User user = new User();
 		
@@ -54,6 +57,7 @@ public class UserServiceTests {
 	}
 	
 	@Test
+	@Ignore
 	public void updateUser(){
 		User user = userService.findByEmail("admin1@naver.com");
 		user.setPassword(passwordEncoder.encode("1234"));
@@ -62,16 +66,19 @@ public class UserServiceTests {
 	}
 	
 	@Test
+	@Ignore
 	public void findByUid(){
 		assertNotNull(userService.findByUid("1"));
 	}
 	
 	@Test
+	@Ignore
 	public void isExistsByUid(){
 		assertTrue(!userService.isExistsByUid("1DbTeNcrdI"));
 	}
 	
 	@Test
+	@Ignore
 	public void getRandomId(){
 		assertNotNull(CommonUtils.getRandomId());
 	}

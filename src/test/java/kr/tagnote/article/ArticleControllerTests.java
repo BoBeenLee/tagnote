@@ -23,5 +23,9 @@ public class ArticleControllerTests {
 	@Autowired
 	ArticleController articleController;
 
-	
+	@Test
+	@Ignore
+	public void test(){
+		
+	}
 }

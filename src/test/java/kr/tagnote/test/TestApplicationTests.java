@@ -18,6 +18,7 @@ public class TestApplicationTests {
 	TestRepository testRepository;
 	
 	@Test
+	@Ignore
 	public void insertTest(){
 //		System.out.println(testRepository.findAll());
 		kr.tagnote.test.Test test = new kr.tagnote.test.Test();

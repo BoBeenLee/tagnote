@@ -4,6 +4,6 @@ spring:
     suffix: .jsp
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: false
 server:
   port: 8080

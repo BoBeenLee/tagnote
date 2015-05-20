@@ -31,4 +31,10 @@ public class TagControllerTests {
 
 	@Autowired
 	ModelMapper modelMapper;
+	
+	@Test
+	@Ignore
+	public void test(){
+		
+	}
 }

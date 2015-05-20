@@ -37,6 +37,7 @@ public class TagServiceTests {
 	}
 
 	@Test
+	@Ignore
 	public void findByNameContaining() {
 		List<Tag> tags = tagService.findByNameContaining("sdf");
 		
@@ -44,11 +45,13 @@ public class TagServiceTests {
 	}
 
 	@Test
+	@Ignore
 	public void getRandomColor() {
 		assertNotNull(CommonUtils.getRandomColor());
 	}
 
 	@Test
+	@Ignore
 	public void findByTagNameAndEmailAndPageResponse() {
 		Pageable pageable = new PageRequest(0, 100);
 		List<TagArticle> tagArticles = tagService.findByTagNameAndEmailAndPage("sdfsdf", "admin1@naver.com",
