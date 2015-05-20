@@ -59,7 +59,6 @@ public class TagNoteAuthenticationFailureHandler extends SimpleUrlAuthentication
 		Authentication auth = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword(), authorities);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 */
-		
 		email = request.getParameter("email");
 		isEmail = (userService.findByEmail(email) != null);
 

@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-@ControllerAdvice
 public class MvcConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public CharacterEncodingFilter characterEncodingFilter() {

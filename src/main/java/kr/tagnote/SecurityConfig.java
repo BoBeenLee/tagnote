@@ -28,7 +28,6 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
 	@Autowired
 	TagNoteUserDetailsService tagMemoDetailsService;
 	@Autowired

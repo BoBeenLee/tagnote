@@ -26,14 +26,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class TagNoteApplication extends SpringBootServletInitializer {
-
 	public static void main(String[] args) {
 		SpringApplication.run(TagNoteApplication.class, args);
 	}
 
-	
-	
-	
 	@Bean
 	public ModelMapper modelMapper() {
 		final ModelMapper modelMapper = new ModelMapper();
@@ -48,7 +44,7 @@ public class TagNoteApplication extends SpringBootServletInitializer {
 			protected void configure() {
 			}
 		};
-		
+
 		modelMapper.addMappings(propertyTagMap);
 		modelMapper.addMappings(propertyTagArticleMap);
 
@@ -57,9 +53,10 @@ public class TagNoteApplication extends SpringBootServletInitializer {
 			public Article.Response convert(MappingContext<Article, Article.Response> context) {
 				Article article = context.getSource();
 
-				List<TagArticle.Response> responses = modelMapper.map(article.getTagArticles(), new TypeToken<List<TagArticle.Response>>() {
-				}.getType());
-				
+				List<TagArticle.Response> responses = modelMapper.map(article.getTagArticles(),
+						new TypeToken<List<TagArticle.Response>>() {
+						}.getType());
+
 				Article.Response response = new Article.Response();
 				response.setTags(responses);
 				response.setArtId(article.getArtId());
@@ -76,10 +73,10 @@ public class TagNoteApplication extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public RestTemplate restTemplate(){
+	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new StandardPasswordEncoder();
@@ -89,11 +86,4 @@ public class TagNoteApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(TagNoteApplication.class);
 	}
-	
-	/*
-	 * @Bean InternalResourceViewResolver internalResourceViewResolver () {
-	 * InternalResourceViewResolver viewResolver = new
-	 * InternalResourceViewResolver(); viewResolver.setPrefix("/WEB-INF/view/");
-	 * viewResolver.setSuffix(".jsp"); return viewResolver; }
-	 */
 }
