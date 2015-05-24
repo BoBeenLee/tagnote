@@ -5,8 +5,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -14,8 +12,10 @@ public class HttpUtils {
 	public static String getJson(RestTemplate restTemplate, String url, HashMap<String, String> params) {
 		String json = null;
 		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(url);
-
-		Set<String> keys = params.keySet();
+		Set<String> keys = null;
+		
+		if(params != null)
+			keys = params.keySet();
 		if (keys != null)
 			for (String key : keys)
 				uriComponentsBuilder.queryParam(key, params.get(key));
