@@ -101,11 +101,13 @@ public class ArticleController {
 		
 		if (user != null && article != null) {
 			createArticle = new Article();
+			createArticle.setSubject(article.getSubject());
+			createArticle.setContent(article.getContent());
 			createArticle.setParentId(article.getArtId());
 			createArticle.setTagList(Article.convertTagArticlesToTagList(article.getTagArticles()));
 			createArticle.setUserId(user.getUserId());
 
-			articleService.saveArticle(article, user.getEmail());
+			articleService.saveArticle(createArticle, user.getEmail());
 			response.setValue("success");
 		}
 		return response;

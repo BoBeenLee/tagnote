@@ -27,6 +27,6 @@ public class ScheduleConfig {
 	
 	@Scheduled(fixedRate=30000)
 	public void repeatedRequest(){
-		logger.info("result : " + HttpUtils.getJson(restTemplate, REQUEST_URL, null));
+//		logger.info("result : " + HttpUtils.getJson(restTemplate, REQUEST_URL, null));
 	}
 }

@@ -30,7 +30,7 @@
                 <div class="form-group">
                     <label>Tag</label>
                     <tags-input ng-model="tags" min-length="1">
-                        <auto-complete source="getTag($query)"></auto-complete>
+                        <auto-complete source="getTag($query)" min-length="1"></auto-complete>
                     </tags-input>
                     <input type="hidden" name="tags" value="{{getTags(tags)}}"/>
                 </div>
