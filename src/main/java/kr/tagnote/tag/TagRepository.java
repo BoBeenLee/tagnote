@@ -15,4 +15,6 @@ public interface TagRepository  extends JpaRepository<Tag, Integer> {
 	public int deleteByName(String name);
 	@Query("SELECT DISTINCT t FROM TagArticle AS ta INNER JOIN ta.tag t INNER JOIN ta.article a WHERE a.userId = :userId")
 	public List<Tag> findByUserId(@Param("userId") long userId);
+	@Query("SELECT DISTINCT t FROM TagArticle AS ta INNER JOIN ta.tag t INNER JOIN ta.article a WHERE a.userId = :userId AND t.name LIKE CONCAT('%', :name, '%')")
+	public List<Tag> findByUserIdAndNameLike(@Param("userId")  long userId, @Param("name")  String name);
 }

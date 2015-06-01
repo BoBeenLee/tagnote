@@ -61,5 +61,6 @@
 <script type="text/javascript" src="/resources/scripts/common/bootstrap.min.js"></script>
 <script type="text/javascript" src="/resources/scripts/common/common.js"></script>
 <script type="text/javascript" src="/resources/scripts/article.js"></script>
+
 </body>
 </html>

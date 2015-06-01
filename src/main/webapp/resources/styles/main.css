@@ -26,10 +26,16 @@
 }
 .main .content span {
   display: inline-block;
-  margin: 5px 0px;
+  margin: 5px 3px;
   font-size: 95%;
 }
 .main .content span a {
   color: #FFFFF3;
   text-decoration: none;
+}
+.main-modal {
+  text-align: center;
+}
+.main-modal .modal-body .btn {
+  width: 48%;
 }

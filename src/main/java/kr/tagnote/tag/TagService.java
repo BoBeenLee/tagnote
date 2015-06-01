@@ -77,4 +77,10 @@ public class TagService {
 
 		return pages;
 	}
+
+	public List<Tag> findByEmailAndNameLike(String email, String name) {
+		User user = userService.findByEmail(email);
+		List<Tag> tags = tagRepository.findByUserIdAndNameLike(user.getUserId(), name);
+		return tags;
+	}
 }

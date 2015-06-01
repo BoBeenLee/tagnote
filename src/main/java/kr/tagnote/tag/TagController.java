@@ -3,6 +3,8 @@ package kr.tagnote.tag;
 import java.security.Principal;
 import java.util.List;
 
+import kr.tagnote.util.JacksonUtils;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -32,11 +34,11 @@ public class TagController {
 	public String main(Model model, Principal principal) {
 		List<Tag> tags = tagService.findByEmail(principal.getName());
 		List<Tag.Reponse> responses = null;
-		
+
 		responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>() {
 		}.getType());
 
-		model.addAttribute("tags", responses);
+		model.addAttribute("tags", JacksonUtils.objectToJson(responses));
 		return "main";
 	}
 
@@ -46,10 +48,11 @@ public class TagController {
 
 		// logger.info("tag : " + tagName + " " + principal.getName());
 		Tag tag = tagService.findByTagName(tagName);
-		List<TagArticle> tagArticles = tagService.findByTagNameAndEmailAndPage(tagName, principal.getName(), pageable).getContent();
+		List<TagArticle> tagArticles = tagService.findByTagNameAndEmailAndPage(tagName, principal.getName(), pageable)
+				.getContent();
 		List<TagArticle.Response> tagArticleDtos = null;
 		Page<TagArticle.Response> responses = null;
-		
+
 		tagArticleDtos = modelMapper.map(tagArticles, new TypeToken<List<TagArticle.Response>>() {
 		}.getType());
 		for (int i = 0; i < tagArticles.size(); i++) {
@@ -58,7 +61,7 @@ public class TagController {
 					}.getType());
 			tagArticleDtos.get(i).getArticle().setTags(tags);
 		}
-		responses =  new PageImpl<TagArticle.Response>(tagArticleDtos);
+		responses = new PageImpl<TagArticle.Response>(tagArticleDtos);
 
 		model.addAttribute("tag", tag);
 		model.addAttribute("tagArticles", responses);
@@ -71,7 +74,18 @@ public class TagController {
 		List<Tag> tags = tagService.findByNameContaining(name);
 		List<Tag.Reponse> responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>() {
 		}.getType());
-		
+
+		return responses;
+	}
+
+	@RequestMapping(value = "/search")
+	@ResponseBody
+	public List<Tag.Reponse> search(@RequestParam(value="name") String name, @RequestParam(value = "type", required = false) String type, Principal principal) {
+		List<Tag> tags = tagService.findByEmailAndNameLike(principal.getName(), name);
+		List<Tag.Reponse> responses = null;
+
+		responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>() {
+		}.getType());
 		return responses;
 	}
 }

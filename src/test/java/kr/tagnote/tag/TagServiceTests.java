@@ -37,6 +37,17 @@ public class TagServiceTests {
 	}
 
 	@Test
+	public void search(){
+		List<Tag> tags = tagService.findByEmailAndNameLike("admin122@naver.com", "");
+		List<Tag.Reponse> responses = null;
+
+		responses = modelMapper.map(tags, new TypeToken<List<Tag.Reponse>>() {
+		}.getType());
+		
+		System.out.println(responses);
+	}
+	
+	@Test
 	@Ignore
 	public void findByNameContaining() {
 		List<Tag> tags = tagService.findByNameContaining("sdf");
