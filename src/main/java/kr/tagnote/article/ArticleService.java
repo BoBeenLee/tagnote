@@ -32,14 +32,13 @@ public class ArticleService {
 	@Autowired
 	private TagService tagService;
 	
-	
 	@Transactional
-	public void saveArticle(Article article, String email){
-		saveArticle(article, email, null);
+	public Article saveArticle(Article article, String email){
+		return saveArticle(article, email, null);
 	}
 	
 	@Transactional
-	public void saveArticle(Article article, String email, Integer parentId) {
+	public Article saveArticle(Article article, String email, Integer parentId) {
 		// add Article
 		User user = userService.findByEmail(email);
 		article.setUserId(user.getUserId());
@@ -72,9 +71,9 @@ public class ArticleService {
 			article.setParentId(article.getArtId());
 		else
 			article.setParentId(parentId);
-		articleRepository.save(article);
+		return articleRepository.save(article);
 	}
-
+	
 	@Transactional
 	public Page<Article> findByPage(Pageable pageable) {
 		Page<Article> articles = articleRepository.findAll(pageable);

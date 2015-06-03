@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
 import org.modelmapper.spi.MappingContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -24,8 +25,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+
 @SpringBootApplication
 public class TagNoteApplication extends SpringBootServletInitializer {
+	@Value("${cloudinary.name}")
+	String cloudName;
+	@Value("${cloudinary.key}")
+	String cloudKey;
+	@Value("${cloudinary.secret}")
+	String cloudSecret;
+	
 	public static void main(String[] args) {
 		String webPort = System.getenv("PORT");
         if (webPort == null || webPort.isEmpty()) {
@@ -34,6 +45,14 @@ public class TagNoteApplication extends SpringBootServletInitializer {
         System.setProperty("server.port", webPort);
         
 		SpringApplication.run(TagNoteApplication.class, args);
+	}
+	
+	@Bean
+	public Cloudinary cloudinary(){
+		return new Cloudinary(ObjectUtils.asMap(
+				  "cloud_name", cloudName,
+				  "api_key", cloudKey,
+				  "api_secret", cloudSecret));
 	}
 
 	@Bean

@@ -1,5 +1,6 @@
 package kr.tagnote.article;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -39,7 +41,9 @@ public class ArticleController {
 	ArticleService articleService;
 	@Autowired
 	UserService userService;
-
+	@Autowired
+	FileService fileService;
+	
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -79,16 +83,47 @@ public class ArticleController {
 	// 같은 /write url로 할 경우, 에러발생함.
 	@RequestMapping(value = "/write/submit", method = RequestMethod.POST)
 	public String write(@ModelAttribute("article") Article.Request request,
-			@RequestParam(value = "name", required = false) String name, Model model, Principal principal) {
+			@RequestParam(value = "name", required = false) String name, @RequestParam("files") List<Long> files, Model model, Principal principal) {
 		String response = (name != null) ? "redirect:/tag?name=" + name : "redirect:/tag/list";
 
 		Article article = modelMapper.map(request, Article.class);
 		article.setTagList(request.getTags());
 
-		articleService.saveArticle(article, principal.getName());
+		article = articleService.saveArticle(article, principal.getName());
+		
+		for(int i=0; i<files.size(); i++){
+			ImageFile file = fileService.findById(files.get(i));
+			file.setArtId(article.getArtId());
+			fileService.saveImageFile(file);
+		}
 		return response;
 	}
 
+	@RequestMapping(value = "/upload")
+	@ResponseBody
+	public Value<String> upload(@ModelAttribute("file") MultipartFile file){
+		Value<String> response = new Value<String>();
+		ImageFile imgFile = new ImageFile();
+
+		if(file == null || !file.getContentType().contains("image")){
+			response.setValue("fail");
+			return response;
+		}
+		
+		imgFile.setName(file.getOriginalFilename());
+		imgFile.setSize(file.getSize());
+		imgFile.setType(file.getContentType());
+		try {
+			imgFile.setBytes(file.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+//		logger.info("imgFile : " + imgFile);
+		fileService.saveImageFile(imgFile);
+		response.setValue("success");
+		return response;
+	}
+	
 	@RequestMapping(value = "/send")
 	@ResponseBody
 	public Value<String> send(@RequestParam("artId") long artId, @RequestParam("uid") String uid) {

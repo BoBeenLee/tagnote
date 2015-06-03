@@ -46,7 +46,10 @@ public class Article {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL)
 	private List<TagArticle> tagArticles;
-
+/*
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL)
+	private List<ImageFile> images;*/
+	
 	@Transient
 	private List<String> tagList;
 	

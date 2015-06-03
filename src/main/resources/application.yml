@@ -7,3 +7,7 @@ spring:
     show-sql: false
 server:
   port: 8080
+cloudinary:
+  name: one-person
+  key: 487777781641271
+  secret: QbNKLC0FwKGQ-Cy2tUNLoEjfyyc
