@@ -1,5 +1,5 @@
-package kr.tagnote.article;
-
+package kr.tagnote.file;
+import static org.junit.Assert.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,6 @@ public class FileServiceTests {
 	
 	@Test
 	public void delete(){
-		fileService.delete(9);
+//		fileService.delete(9);
 	}
 }

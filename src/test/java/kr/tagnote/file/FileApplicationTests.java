@@ -16,4 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class FileApplicationTests {
 	@Autowired
 	FileRepository testRepository;
+	
+	@Test
+	public void test(){
+		
+	}
 }
