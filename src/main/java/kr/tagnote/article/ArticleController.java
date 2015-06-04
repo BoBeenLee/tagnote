@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,7 +49,9 @@ public class ArticleController {
 
 	@Autowired
 	ModelMapper modelMapper;
-
+	@Autowired
+	RestTemplate restTemplate;
+	
 	@RequestMapping(value = "")
 	public String main(@RequestParam("name") String name, Model model, Principal principal) {
 		Pageable pageable = new PageRequest(0, 100);
@@ -120,6 +123,7 @@ public class ArticleController {
 		Article createArticle = null;
 
 		if (user != null && article != null) {
+			// 게시물 복사
 			createArticle = new Article();
 			createArticle.setSubject(article.getSubject());
 			createArticle.setContent(article.getContent());
@@ -127,6 +131,20 @@ public class ArticleController {
 			createArticle.setUser(user);
 
 			articleService.saveArticle(createArticle, user.getEmail(), article.getArtId());
+			
+			List<TagFile> files = article.getFiles();
+			
+			// 파일 복사
+			for(int i=0; i<files.size(); i++){
+				TagFile createTagFile = new TagFile();
+				createTagFile.setArticle(createArticle);
+				createTagFile.setName(files.get(i).getName());
+				createTagFile.setSize(files.get(i).getSize());
+				createTagFile.setType(files.get(i).getType());
+				createTagFile.setBytes(restTemplate.getForObject(files.get(i).getUrl(), byte[].class));
+				
+				fileService.saveTagFile(createTagFile);
+			}
 			response.setValue("success");
 		}
 		return response;

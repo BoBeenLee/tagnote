@@ -1,5 +1,10 @@
 package kr.tagnote.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -13,8 +18,8 @@ public class HttpUtils {
 		String json = null;
 		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(url);
 		Set<String> keys = null;
-		
-		if(params != null)
+
+		if (params != null)
 			keys = params.keySet();
 		if (keys != null)
 			for (String key : keys)
@@ -42,12 +47,10 @@ public class HttpUtils {
 		}
 
 		url.append(contextPath); // .append(servletPath);
-	/*	if (pathInfo != null) {
-			url.append(pathInfo);
-		}
-		if (queryString != null) {
-			url.append("?").append(queryString);
-		}*/
+		/*
+		 * if (pathInfo != null) { url.append(pathInfo); } if (queryString !=
+		 * null) { url.append("?").append(queryString); }
+		 */
 		return url.toString();
 	}
 }

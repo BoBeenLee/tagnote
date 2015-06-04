@@ -1,6 +1,11 @@
 package kr.tagnote.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +19,8 @@ public class CommonUtils {
 		int random = (int) (Math.random() * Math.pow(16, 6));
 		// System.out.println("random : " + random);
 		int noWhite = 48;
-		
-		if(noWhite < random)
+
+		if (noWhite < random)
 			random -= noWhite; // ffffff 방지
 		return String.format("%06X", random);
 	}
@@ -37,16 +42,15 @@ public class CommonUtils {
 		}
 		return encodeStr;
 	}
-	
-	
-	public static List convertStrToList(String str){
+
+	public static List convertStrToList(String str) {
 		int[] strBracket = new int[str.length()];
 
 		procBracket(str, strBracket);
 		List list = (List) toList(str, strBracket, 1, str.length() - 2);
 		return list;
 	}
-	
+
 	// 대각선 구분 위치
 	private static void procBracket(String str, int[] strBracket) {
 		Stack<Integer> stack = new Stack<Integer>();
@@ -112,5 +116,39 @@ public class CommonUtils {
 		}
 		// System.out.println("finish");
 		return res;
+	}
+
+	public static byte[] getURLToBytes(String urlStr, long size) {
+		URL url = null;
+		try {
+			url = new URL(urlStr);
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		}
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		InputStream is = null;
+		byte[] byteChunk = new byte[(int) size]; // Or whatever size you want to
+		// read in at a time.
+
+		try {
+			is = url.openStream();
+			int n;
+
+			while ((n = is.read(byteChunk)) > 0)
+				baos.write(byteChunk, 0, n);
+		} catch (IOException e) {
+			System.err.printf("Failed while reading bytes from %s: %s", url.toExternalForm(), e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return byteChunk;
 	}
 }
