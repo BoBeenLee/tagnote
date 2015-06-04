@@ -101,12 +101,12 @@ public class ArticleController {
 
 	@RequestMapping(value = "/upload")
 	@ResponseBody
-	public Value<String> upload(@ModelAttribute("file") MultipartFile file){
-		Value<String> response = new Value<String>();
+	public Value<Long> upload(@ModelAttribute("file") MultipartFile file){
+		Value<Long> response = new Value<Long>();
 		ImageFile imgFile = new ImageFile();
 
 		if(file == null || !file.getContentType().contains("image")){
-			response.setValue("fail");
+			response.setValue((long)-1);
 			return response;
 		}
 		
@@ -119,8 +119,8 @@ public class ArticleController {
 			e.printStackTrace();
 		}
 //		logger.info("imgFile : " + imgFile);
-		fileService.saveImageFile(imgFile);
-		response.setValue("success");
+		imgFile = fileService.saveImageFile(imgFile);
+		response.setValue(imgFile.getFileId());
 		return response;
 	}
 	

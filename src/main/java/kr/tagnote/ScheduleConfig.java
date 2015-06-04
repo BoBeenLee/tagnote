@@ -26,13 +26,13 @@ public class ScheduleConfig {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	@Scheduled(cron="0 0/1 8-23 * * *")
-	@Scheduled(cron="0 0/1 0-1 * * *")
+//	@Scheduled(cron="0 0/1 8-23 * * *")
+//	@Scheduled(cron="0 0/1 0-1 * * *")
 	public void repeatedRequest(){
 		logger.info("result : " + HttpUtils.getJson(restTemplate, REQUEST_URL, null));
 	}
 	
-	@Scheduled(cron="0 0 1 * * *")
+//	@Scheduled(cron="0 0 1 * * *")
 	public void knockRequest(){
 		logger.info("result : " + HttpUtils.getJson(restTemplate, KNOCK_REQUEST_URL, null));
 	}
