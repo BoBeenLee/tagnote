@@ -3,6 +3,7 @@ package kr.tagnote.tag;
 import java.security.Principal;
 import java.util.List;
 
+import kr.tagnote.file.TagFile;
 import kr.tagnote.util.JacksonUtils;
 
 import org.modelmapper.ModelMapper;
@@ -48,22 +49,30 @@ public class TagController {
 
 		// logger.info("tag : " + tagName + " " + principal.getName());
 		Tag tag = tagService.findByTagName(tagName);
+		Tag.Reponse tagResponse = modelMapper.map(tag, Tag.Reponse.class);
 		List<TagArticle> tagArticles = tagService.findByTagNameAndEmailAndPage(tagName, principal.getName(), pageable)
 				.getContent();
 		List<TagArticle.Response> tagArticleDtos = null;
 		Page<TagArticle.Response> responses = null;
 
+		// tagArticles -> tagArticles.Response로 변환
 		tagArticleDtos = modelMapper.map(tagArticles, new TypeToken<List<TagArticle.Response>>() {
 		}.getType());
 		for (int i = 0; i < tagArticles.size(); i++) {
+			// 하위 태그들을 탐색 후, tagArticles.Response로 변환
 			List<TagArticle.Response> tags = modelMapper.map(tagArticles.get(i).getArticle().getTagArticles(),
 					new TypeToken<List<TagArticle.Response>>() {
 					}.getType());
+			List<TagFile.Response> files = modelMapper.map(tagArticles.get(i).getArticle().getFiles(),
+					new TypeToken<List<TagFile.Response>>() {
+					}.getType());
+
+			tagArticleDtos.get(i).getArticle().setFiles(files);
 			tagArticleDtos.get(i).getArticle().setTags(tags);
 		}
 		responses = new PageImpl<TagArticle.Response>(tagArticleDtos);
 
-		model.addAttribute("tag", tag);
+		model.addAttribute("tag", tagResponse);
 		model.addAttribute("tagArticles", responses);
 		return "tag";
 	}
@@ -80,7 +89,8 @@ public class TagController {
 
 	@RequestMapping(value = "/search")
 	@ResponseBody
-	public List<Tag.Reponse> search(@RequestParam(value="name") String name, @RequestParam(value = "type", required = false) String type, Principal principal) {
+	public List<Tag.Reponse> search(@RequestParam(value = "name") String name,
+			@RequestParam(value = "type", required = false) String type, Principal principal) {
 		List<Tag> tags = tagService.findByEmailAndNameLike(principal.getName(), name);
 		List<Tag.Reponse> responses = null;
 

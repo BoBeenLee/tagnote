@@ -38,10 +38,10 @@ public class ArticleService {
 	}
 	
 	@Transactional
-	public Article saveArticle(Article article, String email, Integer parentId) {
+	public Article saveArticle(Article article, String email, Long parentId) {
 		// add Article
 		User user = userService.findByEmail(email);
-		article.setUserId(user.getUserId());
+		article.setUser(user);
 		article.setParentId(0);
 		articleRepository.save(article);
 

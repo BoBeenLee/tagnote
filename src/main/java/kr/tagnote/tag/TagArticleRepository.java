@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface TagArticleRepository extends PagingAndSortingRepository<TagArticle, Long> {
 	@Query(value="SELECT ta FROM TagArticle AS ta INNER JOIN ta.tag t INNER JOIN ta.article a"
-			+ " WHERE t.tagId = :tagId AND a.userId = :userId")
+			+ " WHERE t.tagId = :tagId AND a.user.userId = :userId")
 	public Page<TagArticle> findByTagIdAndUserId(@Param("tagId") int tagId, @Param("userId") long userId, Pageable pageable);
 	public Page<TagArticle> findByTag(Tag tag, Pageable pageable);
 	public TagArticle findByArticleAndTag(Article article, Tag tag);

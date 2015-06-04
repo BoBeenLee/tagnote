@@ -62,10 +62,10 @@
                                 <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
                             </td>
                             <td nowrap>
-								<button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+								<button type="button" class="btn btn-success btn-xs" ng-click="upload(item);" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                                     <span class="glyphicon glyphicon-upload"></span> Upload
                                 </button>
-                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                <button type="button" class="btn btn-danger btn-xs" ng-click="remove(item);">
                                     <span class="glyphicon glyphicon-trash"></span> Remove
                                 </button>
                             </td>

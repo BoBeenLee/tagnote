@@ -1,4 +1,4 @@
-package kr.tagnote.article;
+package kr.tagnote.file;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ public class FileService {
 	@Autowired
 	Cloudinary cloudinary;
 	
-	public ImageFile saveImageFile(ImageFile file){
+	public TagFile saveTagFile(TagFile file){
 		Map<String, String> uploadResult = null;
 		if(file.getFileId() == 0){
 			uploadResult = upload(file);
@@ -30,7 +30,7 @@ public class FileService {
 		return fileRepository.save(file);
 	}
 	
-	public Map<String, String> upload(ImageFile file){
+	public Map<String, String> upload(TagFile file){
 		Map<String, String> uploadResult = null;
 		try {
 			uploadResult = cloudinary.uploader().upload(file.getBytes(),  ObjectUtils.asMap("resource_type", "auto"));
@@ -41,7 +41,7 @@ public class FileService {
 	}
 	
 	public void delete(long id){
-		ImageFile file = findById(id);
+		TagFile file = findById(id);
 		deleteResource(file.getPublicId());
 		fileRepository.delete(id);
 	}
@@ -56,7 +56,7 @@ public class FileService {
 		}
 	}
 	
-	public ImageFile findById(long fileId){
+	public TagFile findById(long fileId){
 		return fileRepository.findOne(fileId);
 	}
 }

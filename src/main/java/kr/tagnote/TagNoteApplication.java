@@ -3,10 +3,11 @@ package kr.tagnote;
 import java.util.List;
 
 import kr.tagnote.article.Article;
+import kr.tagnote.file.TagFile;
 import kr.tagnote.tag.Tag;
 import kr.tagnote.tag.TagArticle;
+import kr.tagnote.user.User;
 
-import org.apache.catalina.connector.Connector;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -16,9 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
-import org.springframework.boot.context.embedded.tomcat.TomcatConnectorCustomizer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -69,31 +67,53 @@ public class TagNoteApplication extends SpringBootServletInitializer {
 			protected void configure() {
 			}
 		};
-
 		modelMapper.addMappings(propertyTagMap);
 		modelMapper.addMappings(propertyTagArticleMap);
-
+		
+		Converter<TagFile, TagFile.Response> tagFileconverter = new Converter<TagFile, TagFile.Response>() {
+			@Override
+			public TagFile.Response convert(MappingContext<TagFile, TagFile.Response> context) {
+				TagFile file = context.getSource();
+				TagFile.Response response = new TagFile.Response();
+				
+				response.setFileId(file.getFileId());
+				response.setName(file.getName());
+				response.setPublicId(file.getPublicId());
+				response.setUrl(file.getUrl());
+				response.setSize(file.getSize());
+				response.setType(file.getType());
+				response.setCreated(file.getCreated());
+				
+				return response;
+			}
+		};
+		
+		
 		Converter<Article, Article.Response> converter = new Converter<Article, Article.Response>() {
 			@Override
 			public Article.Response convert(MappingContext<Article, Article.Response> context) {
 				Article article = context.getSource();
 
+				// Article의 lazy된 tagArticles의 depth 1만 호출한다.
 				List<TagArticle.Response> responses = modelMapper.map(article.getTagArticles(),
 						new TypeToken<List<TagArticle.Response>>() {
 						}.getType());
-
+				User.Response userResponse = modelMapper.map(article.getUser(), new TypeToken<User.Response>() {
+						}.getType());
 				Article.Response response = new Article.Response();
+				
 				response.setTags(responses);
 				response.setArtId(article.getArtId());
-				response.setUserId(article.getUserId());
+				response.setUser(userResponse);
 				response.setSubject(article.getSubject());
 				response.setContent(article.getContent());
 				response.setUpdated(article.getUpdated());
-
+				
 				return response;
 			}
 		};
 		modelMapper.addConverter(converter);
+		modelMapper.addConverter(tagFileconverter);
 		return modelMapper;
 	}
 

@@ -32,9 +32,10 @@ article.controller("articleController", function($scope, $http, FileUploader) {
 
 	// process upload
 	var uploader = $scope.uploader = new FileUploader({
-		url: '/article/upload'
+		url: '/file/upload'
 	});
 	$scope.files = [];
+	$scope.fileIdx = 0;
 
 	// FILTERS
 	uploader.filters.push({
@@ -45,8 +46,9 @@ article.controller("articleController", function($scope, $http, FileUploader) {
 	});
 
 	uploader.onSuccessItem = function(fileItem, response, status, headers) {
-		$scope.files.push(response.data);
-		//console.info('onSuccessItem', fileItem, response, status, headers);
+		fileItem.file.idx = response.value;
+		$scope.files.push(response.value);
+		//console.log("data : " + response.value);
 	};
 	uploader.onErrorItem = function(fileItem, response, status, headers) {
 		console.info('onErrorItem', fileItem, response, status, headers);
@@ -57,4 +59,25 @@ article.controller("articleController", function($scope, $http, FileUploader) {
 	uploader.onCompleteItem = function(fileItem, response, status, headers) {
 		console.info('onCompleteItem', fileItem, response, status, headers);
 	};
+
+	$scope.upload = function(item){
+		item.upload();
+	}
+
+	$scope.remove = function(item){
+		var index = $scope.files.indexOf(item.file.idx);
+		var fileId = item.file.idx;
+
+		if (index > -1)
+			$scope.files.splice(index, 1);
+		item.remove();
+
+		$http.get('/file/remove', {
+			params : {
+				fileId : fileId
+			}
+		}).then(function(response) {
+			console.log("remove : " + response.data);
+		});
+	}
 });

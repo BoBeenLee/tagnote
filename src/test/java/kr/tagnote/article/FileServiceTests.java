@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.tagnote.TagNoteApplication;
+import kr.tagnote.file.FileService;
 
 import org.junit.After;
 import org.junit.Before;

@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -20,7 +22,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import kr.tagnote.file.TagFile;
 import kr.tagnote.tag.TagArticle;
+import kr.tagnote.user.User;
 import kr.tagnote.util.JacksonUtils;
 import lombok.Data;
 
@@ -35,8 +39,9 @@ public class Article {
 	@SequenceGenerator(name = "auto_gen", sequenceName = "article_art_id_seq")
 	@Column(name = "art_id")
 	private long artId;
-	@Column(name = "user_id")
-	private long userId;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private User user;
 	@Column(name = "parent_id")
 	private long parentId;
 	private String subject;
@@ -46,9 +51,9 @@ public class Article {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL)
 	private List<TagArticle> tagArticles;
-/*
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "article", cascade = CascadeType.ALL)
-	private List<ImageFile> images;*/
+	private List<TagFile> files;
 	
 	@Transient
 	private List<String> tagList;
@@ -91,10 +96,11 @@ public class Article {
 	@Data
 	public static class Response {
 		private long artId;
-		private long userId;
+		private User.Response user;
 		private String subject;
 		private String content;
 		private List<TagArticle.Response> tags;
+		private List<TagFile.Response> files;
 		private Timestamp updated;
 		private String jsonTags;
 		

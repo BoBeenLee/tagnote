@@ -5,6 +5,8 @@ import java.security.Principal;
 import java.util.List;
 
 import kr.tagnote.common.Value;
+import kr.tagnote.file.FileService;
+import kr.tagnote.file.TagFile;
 import kr.tagnote.tag.Tag;
 import kr.tagnote.tag.TagArticle;
 import kr.tagnote.tag.TagArticleRepository;
@@ -43,7 +45,7 @@ public class ArticleController {
 	UserService userService;
 	@Autowired
 	FileService fileService;
-	
+
 	@Autowired
 	ModelMapper modelMapper;
 
@@ -71,7 +73,7 @@ public class ArticleController {
 
 		if (id != 0)
 			article = articleService.findById(id);
-		if (article != null && article.getUserId() == user.getUserId()) {
+		if (article != null && article.getUser().getUserId() == user.getUserId()) {
 			response = modelMapper.map(article, Article.Response.class);
 			model.addAttribute("name", CommonUtils.urlEncode(name));
 		}
@@ -83,66 +85,48 @@ public class ArticleController {
 	// 같은 /write url로 할 경우, 에러발생함.
 	@RequestMapping(value = "/write/submit", method = RequestMethod.POST)
 	public String write(@ModelAttribute("article") Article.Request request,
-			@RequestParam(value = "name", required = false) String name, @RequestParam("files") List<Long> files, Model model, Principal principal) {
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "files", required = false) String files, Model model, Principal principal) {
 		String response = (name != null) ? "redirect:/tag?name=" + name : "redirect:/tag/list";
 
 		Article article = modelMapper.map(request, Article.class);
 		article.setTagList(request.getTags());
 
 		article = articleService.saveArticle(article, principal.getName());
+
+		List fileList = CommonUtils.convertStrToList(files);
 		
-		for(int i=0; i<files.size(); i++){
-			ImageFile file = fileService.findById(files.get(i));
-			file.setArtId(article.getArtId());
-			fileService.saveImageFile(file);
+//		logger.info("fileList : " + fileList);
+		for (int i = 0; i < fileList.size(); i++) {
+			if(fileList.get(i) instanceof String){
+				long fileId = Integer.parseInt(fileList.get(i).toString());
+				TagFile file = fileService.findById(fileId);
+				
+				file.setArticle(article);
+				fileService.saveTagFile(file);
+			}
 		}
 		return response;
 	}
 
-	@RequestMapping(value = "/upload")
-	@ResponseBody
-	public Value<Long> upload(@ModelAttribute("file") MultipartFile file){
-		Value<Long> response = new Value<Long>();
-		ImageFile imgFile = new ImageFile();
-
-		if(file == null || !file.getContentType().contains("image")){
-			response.setValue((long)-1);
-			return response;
-		}
-		
-		imgFile.setName(file.getOriginalFilename());
-		imgFile.setSize(file.getSize());
-		imgFile.setType(file.getContentType());
-		try {
-			imgFile.setBytes(file.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-//		logger.info("imgFile : " + imgFile);
-		imgFile = fileService.saveImageFile(imgFile);
-		response.setValue(imgFile.getFileId());
-		return response;
-	}
-	
 	@RequestMapping(value = "/send")
 	@ResponseBody
 	public Value<String> send(@RequestParam("artId") long artId, @RequestParam("uid") String uid) {
-		 Value<String> response = new Value<String>();
-		 response.setValue("fail");
+		Value<String> response = new Value<String>();
+		response.setValue("fail");
 
 		User user = userService.findByUid(uid);
 		Article article = articleService.findById(artId);
 		Article createArticle = null;
-		
+
 		if (user != null && article != null) {
 			createArticle = new Article();
 			createArticle.setSubject(article.getSubject());
 			createArticle.setContent(article.getContent());
-			createArticle.setParentId(article.getArtId());
 			createArticle.setTagList(Article.convertTagArticlesToTagList(article.getTagArticles()));
-			createArticle.setUserId(user.getUserId());
+			createArticle.setUser(user);
 
-			articleService.saveArticle(createArticle, user.getEmail());
+			articleService.saveArticle(createArticle, user.getEmail(), article.getArtId());
 			response.setValue("success");
 		}
 		return response;

@@ -53,6 +53,13 @@
                      	 ${ tagArticle.article.tags }
                      	 -->
                     </p>
+                    <div class="row col-md-12">
+                    	<ul>
+                    	<c:forEach var="file" items="${ tagArticle.article.files }">
+                    		<li><a href="${ file.url }">${ file.name }</a></li>
+                    	</c:forEach>
+                    	</ul>
+                    </div>
                 </accordion-group>
                 </c:forEach>
             </accordion>
