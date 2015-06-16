@@ -28,7 +28,6 @@ public class ArticleServiceTests {
 	String email = "admin1@naver.com";
 	
 	@Before
-	@Ignore
 	public void insert(){
 		article = new Article();
 		article.setSubject("testtesttest");
@@ -85,7 +84,6 @@ public class ArticleServiceTests {
 	}
 	
 	@After
-	@Ignore
 	public void delete(){
 		articleService.deleteById(article.getArtId());
 	}

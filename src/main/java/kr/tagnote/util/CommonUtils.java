@@ -100,8 +100,8 @@ public class CommonUtils {
 				if (nextIdx > lIdx || nextIdx == -1)
 					nextIdx = lIdx + 1;
 				// System.out.println(str.substring(cIdx + 1, nextIdx).trim());
-				res.add(str.substring(cIdx + 1, nextIdx).trim());
-
+				if(cIdx + 1 != nextIdx)
+					res.add(str.substring(cIdx + 1, nextIdx).trim());
 				if (isFirst)
 					isFirst = false;
 				cIdx = nextIdx;

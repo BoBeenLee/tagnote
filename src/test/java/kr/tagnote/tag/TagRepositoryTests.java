@@ -31,7 +31,6 @@ public class TagRepositoryTests {
 	Tag tag = null;
 	
 	@Before
-	@Ignore
 	public void insert(){
 		tag = new Tag();
 		tag.setName("test1");
@@ -92,7 +91,6 @@ public class TagRepositoryTests {
 	}
 	
 	 @After
-	 @Ignore
 	public void delete() {
 		tagRepository.deleteByName("test1");
 	}

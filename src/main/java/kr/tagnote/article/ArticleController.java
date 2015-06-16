@@ -99,7 +99,7 @@ public class ArticleController {
 
 		List fileList = CommonUtils.convertStrToList(files);
 		
-//		logger.info("fileList : " + fileList);
+		logger.info("fileList : " + fileList.size());
 		for (int i = 0; i < fileList.size(); i++) {
 			if(fileList.get(i) instanceof String){
 				long fileId = Integer.parseInt(fileList.get(i).toString());

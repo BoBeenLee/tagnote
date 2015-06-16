@@ -1,8 +1,10 @@
 package kr.tagnote;
 
-import kr.tagnote.util.CommonUtils;
-import kr.tagnote.util.HttpUtils;
+import java.util.List;
 
+import kr.tagnote.util.CommonUtils;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,10 +17,17 @@ public class CommonTests {
 	}
 	
 	@Test
+	@Ignore
 	public void httpJson(){
 		RestTemplate rest = new RestTemplate();
 		
 		byte[] bytes = rest.getForObject("http://res.cloudinary.com/one-person/image/upload/v1433272795/irqr1j8xfqd9umyc6pov.png", byte[].class);
 		System.out.println(bytes.length);
+	}
+	
+	@Test
+	public void commonTests(){
+		List files = CommonUtils.convertStrToList("[]");
+		System.out.println(files.size());
 	}
 }
