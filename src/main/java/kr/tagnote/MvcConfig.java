@@ -18,16 +18,16 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		return filter;
 	}
 
-	/*@Bean
-	public CommonsMultipartResolver multipartResolver() {
-		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-		return resolver;
-	}*/
+	/*
+	 * @Bean public CommonsMultipartResolver multipartResolver() {
+	 * CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+	 * return resolver; }
+	 */
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// registry.addResourceHandler("/resources/**").addResourceLocations("/resources/")
-		// .setCachePeriod(0);
+		// resourceHandler 서버 url, resourceLocations 현재 파일 위치
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(0);
 	}
 
 	@Override
